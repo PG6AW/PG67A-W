@@ -54,7 +54,15 @@ for i in result1:
      stage = int(i)*((int(base1)**b))
      stage1 += stage
      b = b - 1
-#GATEKEEPER    
+        
+#GATEKEEPER
+#For Updated Version of the Code visit: https://github.com/PG6AW/PG67AW/blob/master/Project%20Base%20Conversion_Updated.py
+#For Updated Version of the Code visit: https://github.com/PG6AW/PG67AW/blob/master/Project%20Base%20Conversion_Updated.py
+#For Updated Version of the Code visit: https://github.com/PG6AW/PG67AW/blob/master/Project%20Base%20Conversion_Updated.py
+#For Updated Version of the Code visit: https://github.com/PG6AW/PG67AW/blob/master/Project%20Base%20Conversion_Updated.py
+#For Updated Version of the Code visit: https://github.com/PG6AW/PG67AW/blob/master/Project%20Base%20Conversion_Updated.py
+#GATEKEEPER
+
 if nothing_out == True:
     stage1 = 1
 n = int(stage1)
