@@ -1,3 +1,8 @@
+#For Updated Version of the Code visit: https://github.com/PG6AW/PG67AW/blob/master/Project%20Base%20Conversion_Updated.py
+#For Updated Version of the Code visit: https://github.com/PG6AW/PG67AW/blob/master/Project%20Base%20Conversion_Updated.py
+#For Updated Version of the Code visit: https://github.com/PG6AW/PG67AW/blob/master/Project%20Base%20Conversion_Updated.py
+#For Updated Version of the Code visit: https://github.com/PG6AW/PG67AW/blob/master/Project%20Base%20Conversion_Updated.py
+
 result = input("Enter the number in any base: ")
 saved = result
 base1 = input("Specify the current base for your number: ")
@@ -97,3 +102,8 @@ elif nothing_out == False:
     print(f"The final result for {saved} in base {saved2} transforming to the base of {saved3} is:",str(result))
 if nothing_out == True:
     print("Invalid Base given!")
+
+#For Updated Version of the Code visit: https://github.com/PG6AW/PG67AW/blob/master/Project%20Base%20Conversion_Updated.py
+#For Updated Version of the Code visit: https://github.com/PG6AW/PG67AW/blob/master/Project%20Base%20Conversion_Updated.py
+#For Updated Version of the Code visit: https://github.com/PG6AW/PG67AW/blob/master/Project%20Base%20Conversion_Updated.py
+#For Updated Version of the Code visit: https://github.com/PG6AW/PG67AW/blob/master/Project%20Base%20Conversion_Updated.py
