@@ -100,7 +100,7 @@ while 1 == 1:
     elif ask2 == "m" or ask2 == "M":
         solo = False
 
-    if ask == "c":
+    if ask == "c" or ask == "C":
         if solo == True:
             a = input("Input the string here: ")
             b = input("Input one character as the splitter: ")
@@ -110,7 +110,7 @@ while 1 == 1:
             b = input("Input all characters as splitters: ").split()
             char_omitter_multi(a,b)
 
-    elif ask == "w":
+    elif ask == "w" or ask == "W":
         if solo == True:
             a = input("Input the string here: ")
             b = input("Input one word as the splitter: ")
