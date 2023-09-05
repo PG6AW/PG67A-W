@@ -1,0 +1,11 @@
+It's a strong urge to run "RUN THIS FIRST.py" since it's a necessity and not something optional otherwise it won't be clarified how much toll a user has been charged with.
+To use it simply press the button once and the database will be updated to your local date-time.
+The reason why i included this is solely due to the nature of the datetime feature that doesn't use same global date-time all around the world.
+It's reasonable not to use the same global date-time since local-datetime system ensures a geo-accurate time & date per user .
+Furthermore, make sure to adjust your PC's timezone and datetime before running into issues and Press the BIG BUTTON only once each time haha!
+
+(Fixed* You can press the button multiple times each time without destroying the database;)
+
+
+
+								GOOD LUCK ;)

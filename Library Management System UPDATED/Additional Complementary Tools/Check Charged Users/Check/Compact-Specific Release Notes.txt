@@ -1,0 +1,12 @@
+    *** "Library_Management_System_Check_User_Charge_With_Username.py" located in "Check Charged Users\Check" Directory :
+    *** The third tool may not sound much favoured to everyone. since it's designed to charge users that have
+    *** delayed book return and days have passed since they've got their time over and haven't fulfilled their promise.
+    *** everyday it passes they are charged with an amount of $5 which may not sound fair lol.
+    *** To accomplish this, we have used datetime module which ensures applying strict disciplinary measures simply by
+    *** fetching system's time and date and adding it into the database once a book is borrowed.
+    *** in order to use this feature it's just a simple click left on the second button to scan and retrieve all users info
+    *** who haven't fulfilled their promise. and also you can achieve this by searching for a specific username.
+
+    *** PATCH_NOTE: PLEASE also note that in order to check users who have been charged, you'd need to first update the database.
+    *** We have automated this task with just a single click on a button. To achieve that, we recommend you to first run
+    *** the "RUN THIS FIRST.py" file and then head for "Library_Management_System_Check_User_Charge_With_Username.py"
