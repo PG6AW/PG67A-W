@@ -33,12 +33,21 @@ def update_database():
             borrowed_days = int(days_remaining)
             return_day = borrowed_days + day_borrowed
             current_day = convert_to_days(datetime.now().strftime("%Y-%m-%d"))
-            days_margin = return_day - current_day
-            days_margin = str(days_margin)
 
-            if days_remaining != "user_exempt":
-                cursor.execute("UPDATE users SET days_remaining = ? WHERE date_borrowed = ?", (days_margin, date_borrowed))
-                cursor.execute("UPDATE users SET date_borrowed = ? WHERE id = ?", (datetime.now(), Id))
+            # days_margin = return_day - current_day
+            # days_margin = str(days_margin)
+
+            # if days_remaining != "user_exempt":
+            #     cursor.execute("UPDATE users SET days_remaining = ? WHERE date_borrowed = ?", (days_margin, date_borrowed))
+            #     cursor.execute("UPDATE users SET date_borrowed = ? WHERE id = ?", (datetime.now(), Id))
+
+            if int(current_day) > int(day_borrowed): #To avoid making insignificant changes to the database over time (for more accurate timestamping against what we have just commented above this method)
+                days_margin = return_day - current_day #The commented part above also updates the time remaining till the breakpoint set predefined.
+                days_margin = str(days_margin)
+
+                if days_remaining != "user_exempt":
+                    cursor.execute("UPDATE users SET days_remaining = ? WHERE date_borrowed = ?", (days_margin, date_borrowed))
+                    cursor.execute("UPDATE users SET date_borrowed = ? WHERE id = ?", (datetime.now(), Id))
 
     conn.commit()
     conn.close()
