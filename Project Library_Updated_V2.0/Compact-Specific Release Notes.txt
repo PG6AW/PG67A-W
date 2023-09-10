@@ -20,7 +20,7 @@
  3  *** Next part is designed to retrieve IDs from each Username or Book if further needed.
  4  *** This part is used to remove or delete a book completely from the database. You can also go back to the 1st
  4  *** part and do this alternatively by setting Number of Instances of the specific book you wish to remove, a "0"
- 4  *** value so that compies of it would no longer exist in the book repository.
+ 4  *** value so that copies of it would no longer exist in the book repository.
  5  *** The 5th part that contains four entries is engineered in order to be clearly intended to borrow a specific
  5  *** book by their ID and they will be immediately assigned to a User profile once user is authenticated.
  6  *** The 6th widgets are just as clear as the 5th part. as they do useful tasks but adversely similar. which
