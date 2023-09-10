@@ -63,6 +63,9 @@ def add_book():
     pages_entry.delete(0, tk.END)
     instances_entry.delete(0, tk.END)
 
+def exit_the_program():
+    root.destroy()
+    access_manager.destroy()
 
 def add_user():
     username = username_entry.get()
@@ -402,7 +405,7 @@ def run_registry():
 access_manager = tk.Tk()
 access_manager.option_add("*Font", "terminal 14 bold")
 access_manager.title("$$ Access Manager $$")
-access_manager.geometry("550x500")
+access_manager.geometry("550x530")
 access_manager.configure(bg="#000000")
 custom_font_2 = Font(family="arial", size=17)
 label37 = tk.Label(access_manager, text="Use These Buttons to Access all Tools inside an All-in-One whole window: \u23CE", font=custom_font_2, fg="#ffff00", bg="#000000")
@@ -421,6 +424,8 @@ space41 = tk.Label(access_manager, text="")
 space41.configure(bg="#000000")
 space42 = tk.Label(access_manager, text="")
 space42.configure(bg="#000000")
+space43 = tk.Label(access_manager, text="")
+space43.configure(bg="#000000")
 
 access_manager.resizable(False,False)
 
@@ -430,6 +435,7 @@ manually_free_user_button = tk.Button(access_manager, text="Manually Free a User
 library_monitor_button = tk.Button(access_manager, text="Library Monitor", background="#00ff00", width=40, height=2, relief="ridge", command=run_library_monitor)
 show_listboxes_button = tk.Button(access_manager, text="Show Listboxes", background="#00ff00", width=40, height=2, relief="ridge", command=run_show_listboxes)
 registry_button = tk.Button(access_manager, text="Register Books & Users", background="#00ff00", width=40, height=2, relief="ridge", command=run_registry)
+exit_button = tk.Button(access_manager, text="Exit", background="#ff0000", foreground="#0000ff", width=8, relief="raised", command=exit_the_program)
 
 update_database_button.pack()
 space39.pack()
@@ -442,6 +448,8 @@ space42.pack()
 show_listboxes_button.pack()
 space38.pack()
 registry_button.pack()
+space43.pack()
+exit_button.pack()
 
 access_manager.mainloop()
 root.mainloop()
