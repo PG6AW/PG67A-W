@@ -1,0 +1,15 @@
+It's a strong urge to run "RUN THIS FIRST.py" since it's a necessity and not something optional otherwise it won't be clarified how much toll a user has been charged with.
+To use it simply press the button once and the database will be updated to your local date-time.
+The reason why i included this is solely due to the nature of the datetime feature that doesn't use same global date-time all around the world.
+It's reasonable not to use the same global date-time since local-datetime system ensures a geo-accurate time & date per user .
+Furthermore, make sure to adjust your PC's timezone and datetime before running into issues and Press the BIG BUTTON only once each time haha!
+
+(Fixed* You can Click the button multiple times each time without destroying the database;)
+
+*** Don't Use the button between long time-intervals each day. You can click it multiple times in very short time intervals but when it times to longer than an hour, you'd be better off clicking it once a day.***
+
+This Tool may add some insignificant amount of time to the period a user has decided to borrow a book. so use it while you know what you are really doing. It's not a toy!
+
+
+
+								GOOD LUCK ;)

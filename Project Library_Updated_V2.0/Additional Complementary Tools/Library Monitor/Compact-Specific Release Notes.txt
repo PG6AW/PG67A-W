@@ -1,0 +1,6 @@
+    *** "Library_Supervisor.py" located in "Library Monitor" Directory :
+    *** This one is well-tasked to undertake the hassle of monitoring the library's situation to report
+    *** all that is requested for each book or each user. it's a general-purpose tool that's also useful
+    *** as a sophisticated surfer throughout the library. which means this powerful tool offers a robust combined search
+    *** capability. for instance, you type in the field the author's name and then get information about all books
+    *** that have been written by that author. or you can get details about each user as well as books.
