@@ -10,7 +10,7 @@ cursor = conn.cursor()
 
 window = tk.Tk()
 window.title("Library Database")
-window.geometry("1000x670")
+window.geometry("1000x700")
 window.configure(bg="#011042")
 window.resizable(False,False)
 
@@ -89,8 +89,15 @@ def retrieve_database_info():
     for book in books_data:
         books_treeview.insert("", tk.END, values=book)
 
+def exit_the_program():
+    window.destroy()
+
 retrieve_button = ttk.Button(window, text="Retrieve Database info", command=retrieve_database_info)
 retrieve_button.pack(side="top", pady=10)
+
+exit_button = tk.Button(window, text="Exit", bg="Turquoise", fg="darkblue", font=("Arial", 8, "bold"), relief="raised", command = exit_the_program)
+exit_button.configure(width=10, pady=5)
+exit_button.pack()
 
 window.mainloop()
 
