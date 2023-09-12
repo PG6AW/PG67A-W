@@ -16,12 +16,14 @@ def check_charge():
     if result:
         days_remaining = result[0]
 
-        if days_remaining == 'user_exempt' or int(days_remaining) > 0:
-            messagebox.showinfo("Charge Status", "User's free of charge by now")
+        if days_remaining == 'user_exempt' or (days_remaining is not None and int(days_remaining) > 0):
+            messagebox.showinfo("Charge Status", "User is free of charge by now")
         else:
-            charge_amount = abs(int(days_remaining)) * 5
-            messagebox.showinfo("Charge Status", f"User has been charged ${charge_amount}")
-
+            if days_remaining is not None:
+                charge_amount = abs(int(days_remaining)) * 5
+                messagebox.showinfo("Charge Status", f"User has been charged ${charge_amount}")
+            else:
+                messagebox.showinfo("Error", "This user has not borrowed any book!")
     else:
         messagebox.showinfo("Error", "User not found")
 
