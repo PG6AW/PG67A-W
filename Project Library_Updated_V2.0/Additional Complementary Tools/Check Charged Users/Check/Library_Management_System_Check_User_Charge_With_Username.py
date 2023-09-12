@@ -46,19 +46,29 @@ def list_charged_users():
 
     conn.close()
 
+def exit_the_program():
+    window.destroy()
+
 window = tk.Tk()
 window.resizable(False,False)
 window.title("Library Management System")
-window.geometry("300x150")
+window.geometry("300x175")
 window.configure(bg="#011042")
 
-entry_username = tk.Entry(window, font=("bold"))
-entry_username.pack(pady=9)
+username_label = tk.Label(window, bg="lightblue", text="Enter person's username here:", font="bold")
+username_label.pack(pady=3)
 
-submit_button = tk.Button(window, text="Submit", command=check_charge, font=("bold"))
+entry_username = tk.Entry(window, font=("bold"))
+entry_username.pack(pady=2)
+
+submit_button = tk.Button(window, text="Check Charge of User", command=check_charge, font=("bold"), bg="#00ff00")
 submit_button.pack(pady=5)
 
-list_button = tk.Button(window, text="List Charged Users", command=list_charged_users, font=("bold"))
+list_button = tk.Button(window, text="List Charged Users", command=list_charged_users, font=("bold"), bg="yellow")
 list_button.pack(pady=5)
+
+exit_button = tk.Button(window, text="Exit", bg="red", fg="darkblue", font=("impact", 10, "bold"), command = exit_the_program)
+exit_button.configure(width=10, pady=5)
+exit_button.pack()
 
 window.mainloop()
