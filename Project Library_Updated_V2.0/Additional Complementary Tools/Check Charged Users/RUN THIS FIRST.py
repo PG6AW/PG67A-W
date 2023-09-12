@@ -54,13 +54,20 @@ def update_database():
 
     messagebox.showinfo("Success", "Database has been successfully updated!")
 
+def exit_the_program():
+    window.destroy()
+
 window = tk.Tk()
 window.title("Update Database")
-window.geometry("400x100")
+window.geometry("400x130")
 window.configure(bg="purple")
 window.resizable(False,False)
 
 button = tk.Button(window, text="Update Database", bg="yellow", fg="black", font=("Arial", 14, "bold"), command=update_database)
 button.pack(pady=20)
+
+exit_button = tk.Button(window, text="Exit", bg="red", fg="darkblue", font=("impact", 10, "bold"), command = exit_the_program)
+exit_button.configure(width=10, pady=5)
+exit_button.pack()
 
 window.mainloop()
