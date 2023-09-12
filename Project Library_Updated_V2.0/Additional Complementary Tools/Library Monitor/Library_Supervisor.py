@@ -84,6 +84,9 @@ def search_users():
 
     conn.close()
 
+def exit_the_program():
+    window.destroy()
+
 window = tk.Tk()
 window.resizable(False,False)
 window.title("Library Database Search")
@@ -157,5 +160,9 @@ days_remaining_entry.pack()
 
 search_users_button = tk.Button(users_frame, text="Search", font=("bold", 12), command=search_users)
 search_users_button.pack(pady=10)
+
+exit_button = tk.Button(window, text="Exit", bg="red", fg="darkblue", font=("impact", 10, "bold"), command = exit_the_program)
+exit_button.configure(width=10, pady=5)
+exit_button.pack()
 
 window.mainloop()
