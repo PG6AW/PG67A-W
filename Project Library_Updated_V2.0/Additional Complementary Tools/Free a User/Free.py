@@ -22,9 +22,12 @@ def free_user():
 
     messagebox.showinfo("Success", "User Successfully Redeemed of any Charge!")
 
+def exit_the_program():
+    window.destroy()
+
 window = tk.Tk()
 window.title("Free User")
-window.geometry("800x300")
+window.geometry("800x330")
 window.configure(bg="#a85454")
 window.resizable(False,False)
 
@@ -44,7 +47,11 @@ username_label.pack()
 username_entry = tk.Entry(window, font=("bold", 12))
 username_entry.pack(pady=10)
 
-free_button = tk.Button(window, text="Free!", font=("bold",16), command=free_user)
-free_button.pack(pady=20)
+free_button = tk.Button(window, text="Free!", font=("bold",16), command=free_user, bg="#00ff00")
+free_button.pack(pady=15)
+
+exit_button = tk.Button(window, text="Quit!", bg="red", fg="darkblue", font=("impact", 14, "bold"), command = exit_the_program)
+exit_button.configure(width=10, pady=5)
+exit_button.pack()
 
 window.mainloop()
