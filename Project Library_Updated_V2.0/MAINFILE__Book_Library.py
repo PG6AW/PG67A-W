@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox , TclError
 import sqlite3
 import datetime
 from tkinter.font import Font
@@ -37,10 +37,16 @@ root.configure(bg="#000000")
 def add_book():
     title = book_title_entry.get()
     author = author_entry.get()
-    pages = int(pages_entry.get())
-    instances = int(instances_entry.get())
+    pages = pages_entry.get()
+    instances = instances_entry.get()
 
-    if title == "" or author == "" or pages == 0 or instances == 0:
+    try:
+        pages = int(pages)
+        instances = int(instances)
+    except ValueError:
+        pass
+
+    if title == "" or author == "" or str(pages) == "" or str(instances) == "":
         messagebox.showerror("Error", "All fields must be filled in.")
         return
 
@@ -64,8 +70,15 @@ def add_book():
     instances_entry.delete(0, tk.END)
 
 def exit_the_program():
-    root.destroy()
-    access_manager.destroy()
+    try:
+        access_manager.destroy()
+    except TclError:
+        pass
+    try:
+        root.destroy()
+        messagebox.showinfo("Exit", "Successfully Exited the Library!")
+    except TclError:
+        messagebox.showinfo("Manipulation Notice", "Main window already closed by user!")
 
 def add_user():
     username = username_entry.get()
@@ -109,7 +122,12 @@ def retrieve_ids():
 
 
 def delete_book():
-    book_id = int(book_id_entry_delete.get())
+    book_id = book_id_entry_delete.get()
+
+    try:
+        book_id = int(book_id)
+    except ValueError:
+        pass
 
     cursor.execute("DELETE FROM books WHERE id=?", (book_id,))
     conn.commit()
@@ -125,10 +143,16 @@ def delete_book():
 def borrow_book():
     username = username_entry_borrow.get()
     password = password_entry_borrow.get()
-    book_id = int(book_id_entry_borrow.get())
-    days = int(days_entry_borrow.get())
+    book_id = book_id_entry_borrow.get()
+    days = days_entry_borrow.get()
 
-    if username == "" or password == "" or book_id == 0 or days == 0:
+    try:
+        book_id = int(book_id)
+        days = int(days)
+    except ValueError:
+        pass
+
+    if username == "" or password == "" or str(book_id) == "" or str(days) == "":
         messagebox.showerror("Error", "All fields must be filled in.")
         return
 
@@ -172,9 +196,14 @@ def borrow_book():
 def return_book():
     username = username_entry_return.get()
     password = password_entry_return.get()
-    book_id = int(book_id_entry_return.get())
+    book_id = book_id_entry_return.get()
 
-    if username == "" or password == "" or book_id == 0:
+    try:
+        int(book_id)
+    except ValueError:
+        pass
+
+    if username == "" or password == "" or str(book_id) == "":
         messagebox.showerror("Error", "All fields must be filled in.")
         return
 
