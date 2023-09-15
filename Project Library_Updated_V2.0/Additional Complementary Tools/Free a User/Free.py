@@ -20,7 +20,10 @@ def free_user():
 
     conn.close()
 
-    messagebox.showinfo("Success", "User Successfully Redeemed of any Charge!")
+    if str(user_id) == "" and str(username) == "" :
+        messagebox.showerror("Empty Fields!", "Please fill at least one of the fields!")
+    else:
+        messagebox.showinfo("Success", "User Successfully Redeemed of any Charge!")
 
 def exit_the_program():
     window.destroy()
