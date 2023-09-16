@@ -13,6 +13,10 @@ def check_charge():
     c.execute("SELECT days_remaining FROM users WHERE username = ?", (username,)) #Checking user by their username
     result = c.fetchone()
 
+    if str(username) == "":
+        messagebox.showerror("Error", "Field is empty! Please submit a Username first.")
+        return
+
     if result:
         days_remaining = result[0]
 
@@ -54,23 +58,36 @@ def exit_the_program():
 window = tk.Tk()
 window.resizable(False,False)
 window.title("Library Management System")
-window.geometry("300x175")
+window.geometry("600x600")
 window.configure(bg="#011042")
 
-username_label = tk.Label(window, bg="lightblue", text="Enter person's username here:", font="bold")
+blank_frame = tk.Frame(window, bg="#011042", height=30)
+blank_frame.pack()
+
+username_label = tk.Label(window, bg="#011042", fg="#00ff00", text="Type person's username in the field down below:", font="arial 14 bold")
 username_label.pack(pady=3)
 
-entry_username = tk.Entry(window, font=("bold"))
-entry_username.pack(pady=2)
+entry_username = tk.Entry(window, font=("arial 17 bold"))
+entry_username.configure(width=35, bg="#252525", relief="sunken", fg="#00ff00", justify="center")
+entry_username.pack(pady=25)
 
-submit_button = tk.Button(window, text="Check Charge of User", command=check_charge, font=("bold"), bg="#00ff00")
+submit_button = tk.Button(window, text="Check Charge of User", command=check_charge, font=("arial 14 bold"), bg="#00ff00")
+submit_button.configure(height=3, width=42)
 submit_button.pack(pady=5)
 
-list_button = tk.Button(window, text="List Charged Users", command=list_charged_users, font=("bold"), bg="yellow")
+blank_frame1 = tk.Frame(window, bg="#011042", height=50)
+blank_frame1.pack()
+label_dash = tk.Label(window, bg="#011042", fg="blue", width=100, font="arial 20", text="--------------- OR ---------------")
+label_dash.place(relx=0.5, rely=0.45, anchor=tk.N)
+blank_frame1 = tk.Frame(window, bg="#011042", height=50)
+blank_frame1.pack()
+
+list_button = tk.Button(window, text="List Charged Users", command=list_charged_users, font=("arial 17 bold"), bg="yellow")
+list_button.configure(height=4, width=32)
 list_button.pack(pady=5)
 
 exit_button = tk.Button(window, text="Exit", bg="red", fg="darkblue", font=("impact", 10, "bold"), command = exit_the_program)
 exit_button.configure(width=10, pady=5)
-exit_button.pack()
+exit_button.pack(pady=40)
 
 window.mainloop()
