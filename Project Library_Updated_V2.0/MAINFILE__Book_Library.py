@@ -33,7 +33,6 @@ root.geometry("938x530")
 root.option_add("*Font", "constantia 12 bold")
 root.configure(bg="#000000")
 
-
 def add_book():
     title = book_title_entry.get()
     author = author_entry.get()
@@ -42,9 +41,20 @@ def add_book():
 
     try:
         pages = int(pages)
+    except ValueError:
+        if str(pages) != "" :
+            messagebox.showerror("Book Pages ValueType Error", "Value for 'Number of Pages' must be Numerical!")
+            return
+        else:
+            pass
+    try:
         instances = int(instances)
     except ValueError:
-        pass
+        if str(instances) != "" :
+            messagebox.showerror("Book Instances ValueType Error", "Value for 'Number of Instances' must be Numerical!")
+            return
+        else:
+            pass
 
     if title == "" or author == "" or str(pages) == "" or str(instances) == "":
         messagebox.showerror("Error", "All fields must be filled in.")
@@ -76,9 +86,9 @@ def exit_the_program():
         pass
     try:
         root.destroy()
-        messagebox.showinfo("Exit", "Successfully Exited the Library!")
+        messagebox.showinfo("Exit Message", "Successfully exited the Library!")
     except TclError:
-        messagebox.showinfo("Manipulation Notice", "Main window already closed by user!")
+        messagebox.showinfo("Manipulation Notice", "Access Manager successfully closed but Main window was already dealt with by Admin!")
 
 def add_user():
     username = username_entry.get()
@@ -109,6 +119,10 @@ def retrieve_ids():
     username = username_entry_retrieve.get()
     title = book_title_entry_retrieve.get()
 
+    if str(username) == "" and str(title) == "" :
+        messagebox.showerror("NoEntry Error", "To retrieve IDs, please type into at least ONE field!")
+        return
+
     cursor.execute("SELECT * FROM users WHERE username=?", (username,))
     user = cursor.fetchone()
 
@@ -120,6 +134,8 @@ def retrieve_ids():
 
     messagebox.showinfo("IDs", f"User ID: {user_id}\nBook ID: {book_id}")
 
+    username_entry_retrieve.delete(0, tk.END)
+    book_title_entry_retrieve.delete(0, tk.END)
 
 def delete_book():
     book_id = book_id_entry_delete.get()
@@ -127,18 +143,22 @@ def delete_book():
     try:
         book_id = int(book_id)
     except ValueError:
-        pass
+        if str(book_id) != "" :
+            messagebox.showerror("Book ID ValueType Error", "'Book ID' must be a Number! You can also retrieve it.")
+        else:
+            pass
 
     cursor.execute("DELETE FROM books WHERE id=?", (book_id,))
     conn.commit()
 
     if cursor.rowcount > 0:
         messagebox.showinfo("Deleted", "Book has been deleted.")
-    else:
+    elif str(book_id) != "" :
         messagebox.showerror("Error", "Book not found.")
+    if str(book_id) == "" :
+        messagebox.showerror("Empty field", "Please input a Book ID or retrieve it if you need to delete a book.")
 
     book_id_entry_delete.delete(0, tk.END)
-
 
 def borrow_book():
     username = username_entry_borrow.get()
@@ -148,9 +168,20 @@ def borrow_book():
 
     try:
         book_id = int(book_id)
+    except ValueError:
+        if str(book_id) != "" :
+            messagebox.showerror("Book ID ValueType Error", "'Book ID' must be a Number! You can also retrieve it.")
+            return
+        else:
+            pass
+    try:
         days = int(days)
     except ValueError:
-        pass
+        if str(days) != "" :
+            messagebox.showerror("Days ValueType Error", "'Number of Days' must be a Number!")
+            return
+        else:
+            pass
 
     if username == "" or password == "" or str(book_id) == "" or str(days) == "":
         messagebox.showerror("Error", "All fields must be filled in.")
@@ -192,6 +223,10 @@ def borrow_book():
 
     messagebox.showinfo("Borrowed", "Book has been borrowed successfully.")
 
+    username_entry_borrow.delete(0, tk.END)
+    password_entry_borrow.delete(0, tk.END)
+    book_id_entry_borrow.delete(0, tk.END)
+    days_entry_borrow.delete(0, tk.END)
 
 def return_book():
     username = username_entry_return.get()
@@ -199,9 +234,13 @@ def return_book():
     book_id = book_id_entry_return.get()
 
     try:
-        int(book_id)
+        book_id = int(book_id)
     except ValueError:
-        pass
+        if str(book_id) != "" :
+            messagebox.showerror("Book ID error", "'Book ID' must be a Number! You can also retrieve it.")
+            return
+        else:
+            pass
 
     if username == "" or password == "" or str(book_id) == "":
         messagebox.showerror("Error", "All fields must be filled in.")
@@ -224,7 +263,7 @@ def return_book():
 
     borrowed_ids = user[3].split(",") if user[3] else []
     if str(book_id) not in borrowed_ids:
-        messagebox.showerror("Error", "You have not borrowed this book.")
+        messagebox.showerror("Error", "Specified User has not borrowed this book.")
         return
 
     borrowed_ids.remove(str(book_id))
@@ -240,6 +279,10 @@ def return_book():
     conn.commit()
 
     messagebox.showinfo("Returned", "Book has been returned successfully.")
+
+    username_entry_return.delete(0, tk.END)
+    password_entry_return.delete(0, tk.END)
+    book_id_entry_return.delete(0, tk.END)
 
 custom_font = Font(family="Helvetica", size=24, weight="bold")
 label50 = tk.Label(root, text="$$$$$$$$ $$$$$$$$$$ $$$$$$$", font=custom_font, fg="#000000", bg="#000000")
@@ -458,7 +501,7 @@ space43.configure(bg="#000000")
 
 access_manager.resizable(False,False)
 
-update_database_button = tk.Button(access_manager, text="Update Database", background="#00ff00", width=40, height=2, relief="ridge", command=run_update_database)
+update_database_button = tk.Button(access_manager, text="Update Database's Timezone!", background="#00ff00", width=40, height=2, relief="ridge", command=run_update_database)
 check_charged_users_button = tk.Button(access_manager, text="Check Charged Users", background="#00ff00", width=40, height=2, relief="ridge", command=run_check_charged_users)
 manually_free_user_button = tk.Button(access_manager, text="Manually Free a User", background="#00ff00", width=40, height=2, relief="ridge", command=run_manually_free_user)
 library_monitor_button = tk.Button(access_manager, text="Library Monitor", background="#00ff00", width=40, height=2, relief="ridge", command=run_library_monitor)
