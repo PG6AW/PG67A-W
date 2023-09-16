@@ -52,21 +52,22 @@ def update_database():
     conn.commit()
     conn.close()
 
-    messagebox.showinfo("Success", "Database has been successfully updated!")
+    messagebox.showinfo("Success-Update Notice", "Database's timezone has been / had been(already) successfully updated to the current Time & Date of your system!")
 
 def exit_the_program():
     window.destroy()
 
 window = tk.Tk()
-window.title("Update Database")
-window.geometry("400x130")
-window.configure(bg="purple")
+window.title("Update Database Timing")
+window.geometry("650x210")
+window.configure(bg="lightgreen")
 window.resizable(False,False)
 
-button = tk.Button(window, text="Update Database", bg="yellow", fg="black", font=("Arial", 14, "bold"), command=update_database)
+button = tk.Button(window, text="Click this button to UPDATE Time & Date of the Database", bg="#00ff00", relief="ridge", fg="black", font=("Arial", 14, "bold"), command=update_database)
+button.configure(width=45, height=4)
 button.pack(pady=20)
 
-exit_button = tk.Button(window, text="Exit", bg="red", fg="darkblue", font=("impact", 10, "bold"), command = exit_the_program)
+exit_button = tk.Button(window, text="Exit", bg="red", relief="ridge", fg="darkblue", font=("impact", 10, "bold"), command = exit_the_program)
 exit_button.configure(width=10, pady=5)
 exit_button.pack()
 
