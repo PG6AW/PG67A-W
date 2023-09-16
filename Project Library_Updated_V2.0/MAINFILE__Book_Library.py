@@ -340,24 +340,28 @@ book_title_label = tk.Label(
     frame1, background="#7bdfe0", text="Book Title :", width="16")
 book_title_label.grid(column=0, row=0)
 book_title_entry = tk.Entry(frame1)
+book_title_entry.configure(bg="saddle brown", fg="#ffffff", justify="center", font="arial 13 bold")
 book_title_entry.grid(column=1, row=0)
 
 author_label = tk.Label(frame1, background="#7bdfe0",
                         text="Author :", width="16")
 author_label.grid(column=0, row=1)
 author_entry = tk.Entry(frame1)
+author_entry.configure(bg="peru", fg="darkblue", justify="center", font="arial 13 bold")
 author_entry.grid(column=1, row=1)
 
 pages_label = tk.Label(frame1, background="#7bdfe0",
                        text="Number of Pages :", width="16")
 pages_label.grid(column=0, row=2)
 pages_entry = tk.Entry(frame1)
+pages_entry.configure(bg="saddle brown", fg="#ffffff", justify="center", font="arial 13 bold")
 pages_entry.grid(column=1, row=2)
 
 instances_label = tk.Label(
     frame1, background="#7bdfe0", text="Number of Instances:", width="16")
 instances_label.grid(column=0, row=3)
 instances_entry = tk.Entry(frame1)
+instances_entry.configure(bg="peru", fg="darkblue", justify="center", font="arial 13 bold")
 instances_entry.grid(column=1, row=3)
 
 add_book_button = tk.Button(
@@ -368,12 +372,14 @@ username_label = tk.Label(frame2, background="#7bdfe0",
                           text="Username:", width=16)
 username_label.grid(column=0, row=0)
 username_entry = tk.Entry(frame2)
+username_entry.configure(bg="saddle brown", fg="#ffffff", justify="center", font="arial 13 bold")
 username_entry.grid(column=1, row=0)
 
 password_label = tk.Label(frame2, background="#7bdfe0",
                           text="Password :", width=16)
 password_label.grid(column=0, row=1)
 password_entry = tk.Entry(frame2)
+password_entry.configure(bg="peru", fg="darkblue", justify="center", font="arial 13 bold")
 password_entry.grid(column=1, row=1)
 
 add_user_button = tk.Button(
@@ -384,12 +390,14 @@ username_label_retrieve = tk.Label(
     frame3, background="#7bdfe0", text="Username :", width="16")
 username_label_retrieve.grid(column=0, row=0)
 username_entry_retrieve = tk.Entry(frame3)
+username_entry_retrieve.configure(bg="peru", fg="darkblue", justify="center", font="arial 13 bold")
 username_entry_retrieve.grid(column=1, row=0)
 
 book_title_label_retrieve = tk.Label(
     frame3, background="#7bdfe0", text="Book Title :", width="16")
 book_title_label_retrieve.grid(column=0, row=1)
 book_title_entry_retrieve = tk.Entry(frame3)
+book_title_entry_retrieve.configure(bg="saddle brown", fg="#ffffff", justify="center", font="arial 13 bold")
 book_title_entry_retrieve.grid(column=1, row=1)
 
 retrieve_ids_button = tk.Button(
@@ -400,6 +408,7 @@ book_id_label_delete = tk.Label(
     frame4, background="#7bdfe0", text="Book ID :", width=16)
 book_id_label_delete.grid(column=0, row=0)
 book_id_entry_delete = tk.Entry(frame4)
+book_id_entry_delete.configure(bg="saddle brown", fg="#ffffff", justify="center", font="arial 13 bold")
 book_id_entry_delete.grid(column=1, row=0)
 
 delete_book_button = tk.Button(
@@ -410,24 +419,28 @@ username_label_borrow = tk.Label(
     frame5, background="#7bdfe0", text="Username :", width="16")
 username_label_borrow.grid(column=0, row=0)
 username_entry_borrow = tk.Entry(frame5)
+username_entry_borrow.configure(bg="peru", fg="darkblue", justify="center", font="arial 13 bold")
 username_entry_borrow.grid(column=1, row=0)
 
 password_label_borrow = tk.Label(
     frame5, background="#7bdfe0", text="Password :", width="16")
 password_label_borrow.grid(column=0, row=1)
 password_entry_borrow = tk.Entry(frame5)
+password_entry_borrow.configure(bg="saddle brown", fg="#ffffff", justify="center", font="arial 13 bold")
 password_entry_borrow.grid(column=1, row=1)
 
 book_id_label_borrow = tk.Label(
     frame5, background="#7bdfe0", text="Book ID :", width="16")
 book_id_label_borrow.grid(column=0, row=2)
 book_id_entry_borrow = tk.Entry(frame5)
+book_id_entry_borrow.configure(bg="peru", fg="darkblue", justify="center", font="arial 13 bold")
 book_id_entry_borrow.grid(column=1, row=2)
 
 days_label_borrow = tk.Label(
     frame5, background="#7bdfe0", text="Number of Days :", width="16")
 days_label_borrow.grid(column=0, row=3)
 days_entry_borrow = tk.Entry(frame5)
+days_entry_borrow.configure(bg="saddle brown", fg="#ffffff", justify="center", font="arial 13 bold")
 days_entry_borrow.grid(column=1, row=3)
 
 borrow_book_button = tk.Button(
@@ -438,18 +451,21 @@ username_label_return = tk.Label(
     frame6, background="#7bdfe0", text="Username :", width=16)
 username_label_return.grid(column=0, row=0)
 username_entry_return = tk.Entry(frame6)
+username_entry_return.configure(bg="saddle brown", fg="#ffffff", justify="center", font="arial 13 bold")
 username_entry_return.grid(column=1, row=0)
 
 password_label_return = tk.Label(
     frame6, background="#7bdfe0", text="Password :", width=16)
 password_label_return.grid(column=0, row=1)
 password_entry_return = tk.Entry(frame6)
+password_entry_return.configure(bg="peru", fg="darkblue", justify="center", font="arial 13 bold")
 password_entry_return.grid(column=1, row=1)
 
 book_id_label_return = tk.Label(
     frame6, background="#7bdfe0", text="Book ID :", width=16)
 book_id_label_return.grid(column=0, row=2)
 book_id_entry_return = tk.Entry(frame6)
+book_id_entry_return.configure(bg="saddle brown", fg="#ffffff", justify="center", font="arial 13 bold")
 book_id_entry_return.grid(column=1, row=2)
 
 return_book_button = tk.Button(
@@ -477,8 +493,9 @@ def run_registry():
 access_manager = tk.Tk()
 access_manager.option_add("*Font", "terminal 14 bold")
 access_manager.title("$$ Access Manager $$")
-access_manager.geometry("550x530")
+access_manager.geometry("550x550")
 access_manager.configure(bg="#000000")
+access_manager.resizable(False,False)
 custom_font_2 = Font(family="arial", size=17)
 label37 = tk.Label(access_manager, text="Use These Buttons to Access all Tools inside an All-in-One whole window: \u23CE", font=custom_font_2, fg="#ffff00", bg="#000000")
 label37.pack()
@@ -499,15 +516,14 @@ space42.configure(bg="#000000")
 space43 = tk.Label(access_manager, text="")
 space43.configure(bg="#000000")
 
-access_manager.resizable(False,False)
 
-update_database_button = tk.Button(access_manager, text="Update Database's Timezone!", background="#00ff00", width=40, height=2, relief="ridge", command=run_update_database)
-check_charged_users_button = tk.Button(access_manager, text="Check Charged Users", background="#00ff00", width=40, height=2, relief="ridge", command=run_check_charged_users)
-manually_free_user_button = tk.Button(access_manager, text="Manually Free a User", background="#00ff00", width=40, height=2, relief="ridge", command=run_manually_free_user)
-library_monitor_button = tk.Button(access_manager, text="Library Monitor", background="#00ff00", width=40, height=2, relief="ridge", command=run_library_monitor)
-show_listboxes_button = tk.Button(access_manager, text="Show Listboxes", background="#00ff00", width=40, height=2, relief="ridge", command=run_show_listboxes)
-registry_button = tk.Button(access_manager, text="Register Books & Users", background="#00ff00", width=40, height=2, relief="ridge", command=run_registry)
-exit_button = tk.Button(access_manager, text="Exit", background="#ff0000", foreground="#0000ff", width=8, relief="raised", command=exit_the_program)
+update_database_button = tk.Button(access_manager, text="Update Database's Timezone!", background="#00ff00", foreground="darkblue", width=40, height=2, relief="ridge", command=run_update_database)
+check_charged_users_button = tk.Button(access_manager, text="Check Charged Users", background="#00ff00", foreground="darkblue", width=40, height=2, relief="ridge", command=run_check_charged_users)
+manually_free_user_button = tk.Button(access_manager, text="Manually Free a User", background="#00ff00", foreground="darkblue", width=40, height=2, relief="ridge", command=run_manually_free_user)
+library_monitor_button = tk.Button(access_manager, text="Library Monitor", background="#00ff00", foreground="darkblue", width=40, height=2, relief="ridge", command=run_library_monitor)
+show_listboxes_button = tk.Button(access_manager, text="Show Listboxes", background="#00ff00", foreground="darkblue", width=40, height=2, relief="ridge", command=run_show_listboxes)
+registry_button = tk.Button(access_manager, text="Register Books & Users", background="#00ff00", foreground="darkblue", width=40, height=2, relief="ridge", command=run_registry)
+exit_button = tk.Button(access_manager, text="Exit", background="#ff0000", foreground="darkblue", width=8, relief="raised", font="calibri 14 bold", command=exit_the_program)
 
 update_database_button.pack()
 space39.pack()
