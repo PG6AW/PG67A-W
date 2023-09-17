@@ -1,14 +1,14 @@
 # Register Users and Books
 
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import messagebox , ttk
 import sqlite3
 
 conn = sqlite3.connect("registry.db")
 cursor = conn.cursor()
 
 cursor.execute("""CREATE TABLE IF NOT EXISTS users (
-                    username TEXT,
+                    username TEXT UNIQUE,
                     name TEXT,
                     middle_name_last_name TEXT,
                     age INTEGER,
@@ -21,7 +21,7 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS users (
 
 cursor.execute("""CREATE TABLE IF NOT EXISTS books (
                     category TEXT,
-                    book_id INTEGER,
+                    book_id INTEGER UNIQUE,
                     title TEXT,
                     author TEXT,
                     publisher TEXT,
@@ -51,6 +51,27 @@ def register_user():
             messagebox.showerror("Inappropriate Value", "Please enter a Number for 'Age'!")
             return
 
+    if not (username and name and middle_name_last_name and age and address and phone_number and national_id and email and postal_code):
+        messagebox.showerror("Error", "Please fill all fields")
+        return
+
+    confirm_submission = messagebox.askyesno("Submission Confirmation", "Are you sure you're going to submit User data into database? Always Double-Check before you're sure to confirm!!")
+    if confirm_submission:
+        pass
+    else:
+        return
+
+    try:
+        cursor.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    (username, name, middle_name_last_name, age, address, phone_number, national_id, email, postal_code))
+        conn.commit()
+        messagebox.showinfo("Success", "User registered successfully")
+    except sqlite3.IntegrityError:
+        cursor.execute(
+            "UPDATE users SET name=?, middle_name_last_name=?, age=?, address=?, phone_number=?, national_id=?, email=?, postal_code=? WHERE username=?", (name, middle_name_last_name, age, address, phone_number, national_id, email, postal_code, username))
+        conn.commit()
+        messagebox.showinfo("Updated", "User info has been updated!")
+
     username_entry.delete(0, tk.END)
     name_entry.delete(0, tk.END)
     middle_name_last_name_entry.delete(0, tk.END)
@@ -60,15 +81,6 @@ def register_user():
     national_id_entry.delete(0, tk.END)
     email_entry.delete(0, tk.END)
     postal_code_entry.delete(0, tk.END)
-
-    if not (username and name and middle_name_last_name and age and address and phone_number and national_id and email and postal_code):
-        messagebox.showerror("Error", "Please fill all fields")
-        return
-
-    cursor.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                   (username, name, middle_name_last_name, age, address, phone_number, national_id, email, postal_code))
-    conn.commit()
-    messagebox.showinfo("Success", "User registered successfully")
 
 def register_book():
     category = category_var.get()
@@ -102,6 +114,29 @@ def register_book():
             messagebox.showerror("Inappropriate Value", "Please enter a Number for 'Pages'!")
             return
 
+    if category == "SELECT_FROM_DROPDOWN" :
+        messagebox.showerror("Error __Not_Selected__", "Please first select a Book_Category from the Dropdown_Menu!")
+        return
+
+    if not (category and book_id and title and author and publisher and year_of_publish and isbn and pages and translated_by and book_genre and description):
+        messagebox.showerror("Error", "Please fill all fields")
+        return
+
+    confirm_submission = messagebox.askyesno("Submission Confirmation", "Are you sure you're going to submit book data into database? Always Double-Check before you're sure to confirm!!")
+    if confirm_submission:
+        pass
+    else:
+        return
+    try:
+        cursor.execute("INSERT INTO books VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                    (category, book_id, title, author, publisher, year_of_publish, isbn, pages, translated_by, book_genre, description))
+        conn.commit()
+        messagebox.showinfo("Success", "Book registered successfully")
+    except sqlite3.IntegrityError:
+        cursor.execute("UPDATE books SET category=?, title=?, author=?, publisher=?, year_of_publish=?, isbn=?, pages=?, translated_by=?, book_genre=?, description=? WHERE book_id=?", (category, title, author, publisher, year_of_publish, isbn, pages, translated_by, book_genre, description, book_id))
+        conn.commit()
+        messagebox.showinfo("Updated", "Book info has been updated!")
+
     book_id_entry.delete(0, tk.END)
     title_entry.delete(0, tk.END)
     author_entry.delete(0, tk.END)
@@ -112,15 +147,6 @@ def register_book():
     translated_by_entry.delete(0, tk.END)
     book_genre_entry.delete(0, tk.END)
     description_entry.delete(0, tk.END)
-
-    if not (category and book_id and title and author and publisher and year_of_publish and isbn and pages and translated_by and book_genre and description):
-        messagebox.showerror("Error", "Please fill all fields")
-        return
-
-    cursor.execute("INSERT INTO books VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                   (category, book_id, title, author, publisher, year_of_publish, isbn, pages, translated_by, book_genre, description))
-    conn.commit()
-    messagebox.showinfo("Success", "Book registered successfully")
 
 def show_registered_users():
     cursor.execute("SELECT * FROM users")
@@ -173,6 +199,13 @@ def show_registered_books():
     yscrollbar.config(command=text_widget.yview)
 
 def search_records():
+
+    hint_message = messagebox.askyesno("Hint", "By typing data in one or multiple fields of either User registry column or Book registry column down below and then firing the 'Investigator' button, you can search for books and users.\n\nPlease note that this can also work as a combined-data search by inputting multiple fields. It'll pop a record for each set of matching criteria ONLY if they exist!\n\n-- CONTINUE? --")
+    if hint_message:
+        pass
+    else:
+        return
+
     category = category_var.get()
     book_id = book_id_entry.get()
     title = title_entry.get()
@@ -221,6 +254,16 @@ def delete_book():
 
     booktitle = book_title_delete.get()
 
+    if str(booktitle) == "":
+        messagebox.showerror("Error", "Empty Field!")
+        return
+    
+    delete_confirmation = messagebox.askyesno("Confirm Deletion", "Are you sure you're going to delete the specified Book?")
+    if delete_confirmation:
+        pass
+    else:
+        return
+
     cursor.execute("DELETE FROM books WHERE title=?", (booktitle,))
     conn.commit()
 
@@ -235,6 +278,16 @@ def delete_user():
 
     username = user_name_delete.get()
 
+    if str(username) == "":
+        messagebox.showerror("Error", "Empty Field!")
+        return
+    
+    delete_confirmation = messagebox.askyesno("Confirm Deletion", "Are you sure you're going to delete the specified User?")
+    if delete_confirmation:
+        pass
+    else:
+        return
+
     cursor.execute("DELETE FROM users WHERE username=?", (username,))
     conn.commit()
 
@@ -246,7 +299,7 @@ def delete_user():
     user_name_delete.delete(0, tk.END)
 
 def exit_the_program():
-    answer = messagebox.askyesnocancel("Quit Message", "Are you sure you're going to quit the registry environment?")
+    answer = messagebox.askyesno("Quit Message", "Are you sure you're going to quit the registry administrator environment?")
     if answer:
         window.destroy()
 
@@ -423,9 +476,9 @@ middle_frame_books.place(relx=0.5, rely=0.35, anchor=tk.N)
 
 book_title_delete_label = tk.Label(middle_frame_books, text="Title of the Book to Delete:", bg="yellow", fg="red", font="bold", width=25)
 book_title_delete_label.pack()
-book_title_delete = tk.Entry(middle_frame_books, width=50)
-book_title_delete.pack(pady=2)
-book_title_delete_button = tk.Button(middle_frame_books, text="Delete the Book", command=delete_book, bg="red", fg="yellow", font="boldest", width=15, relief="raised")
+book_title_delete = tk.Entry(middle_frame_books, width=35, justify="center", font="lotus 12 bold")
+book_title_delete.pack(pady=5)
+book_title_delete_button = tk.Button(middle_frame_books, text="Delete Book", command=delete_book, bg="red", fg="yellow", font="boldest", width=15, relief="raised")
 book_title_delete_button.pack(pady=5)
 
 middle_frame_users = tk.Frame(window)
@@ -435,8 +488,8 @@ middle_frame_users.place(relx=0.5, rely=0.6, anchor=tk.N)
 
 user_name_delete_label = tk.Label(middle_frame_users, text="Username to Delete:", bg="yellow", fg="red", font="bold", width=25)
 user_name_delete_label.pack()
-user_name_delete = tk.Entry(middle_frame_users, width=50)
-user_name_delete.pack(pady=2)
+user_name_delete = tk.Entry(middle_frame_users, width=35, justify="center", font="lotus 12 bold")
+user_name_delete.pack(pady=5)
 user_name_delete_button = tk.Button(middle_frame_users, text="Delete User", command=delete_user, bg="red", fg="yellow", font="boldest", width=15, relief="raised")
 user_name_delete_button.pack(pady=5)
 
@@ -456,16 +509,17 @@ right_header_label.pack(pady=30)
 category_label = tk.Label(right_pane, text="Book Category")
 category_label.config(bg="lightblue", font="helvetica 11 bold")
 category_label.pack(pady=7)
+
 category_var = tk.StringVar(right_pane)
-categories = ["Engineering", "Meta Physics", "Mathematics", "Motivational", "Narrative", "Comedy", "Memoir", "Fiction", "History", "Poetry", "Science", "Novel", "Phsychology", "Romance",
-              "Academic", "Entertainment", "Science Fiction", "IT and Technology", "Biology", "Religious", "Spirituality", "Artificial Intelligence", "Correlated Artbook", "Geography",
-              "Astrology", "Crime Fiction", "Antropology", "Robotics", "Graphics", "Video Game Franchise Books", "Relationship-Help", "Children", "Folklore", "Music",
-              "Survival-Horror Fiction", "Self Improvement", "Historical Fiction", "Biography", "Thriller", "Inspired by True stories",
-              "Mystery", "Art", "Ethnic and Culture", "Fantasy", "Other"]
-category_var = tk.StringVar(right_pane)
+categories = ["SELECT_FROM_DROPDOWN", "Engineering", "Meta Physics", "Mathematics", "Motivational", "Narrative", "Comedy", "Memoir", "Fiction", "History", "Poetry", "Science", "Novel", 
+               "Phsychology", "Romance","Academic", "Entertainment", "Science Fiction", "IT and Technology", "Biology", "Religious", "Spirituality", "Artificial Intelligence", 
+               "Correlated Artbook", "Geography", "Astrology", "Crime Fiction", "Antropology", "Robotics", "Graphics", "Video Game Franchise Books", "Relationship-Help", "Children", 
+               "Folklore", "Music", "Survival-Horror Fiction", "Self Improvement", "Historical Fiction", "Biography", "Thriller", "Inspired by True stories", "Mystery", "Art", 
+               "Ethnic and Culture", "Fantasy", "Other"]
 category_var.set(categories[0])
-category_dropdown = tk.OptionMenu(right_pane, category_var, *categories)
-category_dropdown.config(font="helvetica 10 bold", background="lightgreen")
+style = ttk.Style(right_pane)
+style.configure('TMenubutton', foreground='blue', background='lightgreen', font=('Trebuchet MS', 10, 'bold'))
+category_dropdown = ttk.OptionMenu(right_pane, category_var, *categories)
 category_dropdown.pack()
 
 space10 = tk.Label(right_pane, text="")
@@ -474,9 +528,9 @@ space10.pack()
 
 book_id_label = tk.Label(right_pane, text="Book ID from library")
 book_id_label.config(bg="lightblue", font="helvetica 11 bold")
-book_id_label.pack(pady=7)
+book_id_label.pack(pady=5)
 book_id_entry = tk.Entry(right_pane)
-book_id_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
+book_id_entry.config(bg="lightgreen", fg="darkblue", font="calibri 11 bold", justify="center", width=26)
 book_id_entry.pack()
 
 space11 = tk.Label(right_pane, text="")
@@ -485,9 +539,9 @@ space11.pack()
 
 title_label = tk.Label(right_pane, text="Title")
 title_label.config(bg="lightblue", font="helvetica 11 bold")
-title_label.pack(pady=7)
+title_label.pack(pady=5)
 title_entry = tk.Entry(right_pane)
-title_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
+title_entry.config(bg="lightgreen", fg="darkblue", font="calibri 11 bold", justify="center", width=26)
 title_entry.pack()
 
 space12 = tk.Label(right_pane, text="")
@@ -496,9 +550,9 @@ space12.pack()
 
 author_label = tk.Label(right_pane, text="Author")
 author_label.config(bg="lightblue", font="helvetica 11 bold")
-author_label.pack(pady=7)
+author_label.pack(pady=5)
 author_entry = tk.Entry(right_pane)
-author_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
+author_entry.config(bg="lightgreen", fg="darkblue", font="calibri 11 bold", justify="center", width=26)
 author_entry.pack()
 
 space13 = tk.Label(right_pane, text="")
@@ -507,9 +561,9 @@ space13.pack()
 
 publisher_label = tk.Label(right_pane, text="Publisher")
 publisher_label.config(bg="lightblue", font="helvetica 11 bold")
-publisher_label.pack(pady=7)
+publisher_label.pack(pady=5)
 publisher_entry = tk.Entry(right_pane)
-publisher_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
+publisher_entry.config(bg="lightgreen", fg="darkblue", font="calibri 11 bold", justify="center", width=26)
 publisher_entry.pack()
 
 space14 = tk.Label(right_pane, text="")
@@ -517,10 +571,10 @@ space14.configure(bg="darkblue")
 space14.pack()
 
 year_of_publish_label = tk.Label(right_pane, text="Year of Publish")
-year_of_publish_label.pack(pady=7)
+year_of_publish_label.pack(pady=5)
 year_of_publish_label.config(bg="lightblue", font="helvetica 11 bold")
 year_of_publish_entry = tk.Entry(right_pane)
-year_of_publish_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
+year_of_publish_entry.config(bg="lightgreen", fg="darkblue", font="calibri 11 bold", justify="center", width=26)
 year_of_publish_entry.pack()
 
 space15 = tk.Label(right_pane, text="")
@@ -529,9 +583,9 @@ space15.pack()
 
 isbn_label = tk.Label(right_pane, text="ISBN")
 isbn_label.config(bg="lightblue", font="helvetica 11 bold")
-isbn_label.pack(pady=7)
+isbn_label.pack(pady=5)
 isbn_entry = tk.Entry(right_pane)
-isbn_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
+isbn_entry.config(bg="lightgreen", fg="darkblue", font="calibri 11 bold", justify="center", width=26)
 isbn_entry.pack()
 
 space16 = tk.Label(right_pane, text="")
@@ -540,9 +594,9 @@ space16.pack()
 
 pages_label = tk.Label(right_pane, text="Pages")
 pages_label.config(bg="lightblue", font="helvetica 11 bold")
-pages_label.pack(pady=7)
+pages_label.pack(pady=5)
 pages_entry = tk.Entry(right_pane)
-pages_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
+pages_entry.config(bg="lightgreen", fg="darkblue", font="calibri 11 bold", justify="center", width=26)
 pages_entry.pack()
 
 space17 = tk.Label(right_pane, text="")
@@ -551,9 +605,9 @@ space17.pack()
 
 translated_by_label = tk.Label(right_pane, text="Translated By")
 translated_by_label.config(bg="lightblue", font="helvetica 11 bold")
-translated_by_label.pack(pady=7)
+translated_by_label.pack(pady=5)
 translated_by_entry = tk.Entry(right_pane)
-translated_by_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
+translated_by_entry.config(bg="lightgreen", fg="darkblue", font="calibri 11 bold", justify="center", width=26)
 translated_by_entry.pack()
 
 space18 = tk.Label(right_pane, text="")
@@ -562,9 +616,9 @@ space18.pack()
 
 book_genre_label = tk.Label(right_pane, text="Book Genre")
 book_genre_label.config(bg="lightblue", font="helvetica 11 bold")
-book_genre_label.pack(pady=7)
+book_genre_label.pack(pady=5)
 book_genre_entry = tk.Entry(right_pane)
-book_genre_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
+book_genre_entry.config(bg="lightgreen", fg="darkblue", font="calibri 11 bold", justify="center", width=26)
 book_genre_entry.pack()
 
 space19 = tk.Label(right_pane, text="")
@@ -573,9 +627,9 @@ space19.pack()
 
 description_label = tk.Label(right_pane, text="Book Description")
 description_label.config(bg="lightblue", font="helvetica 11 bold")
-description_label.pack(pady=7)
+description_label.pack(pady=5)
 description_entry = tk.Entry(right_pane)
-description_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
+description_entry.config(bg="lightgreen", fg="darkblue", font="calibri 11 bold", justify="center", width=26)
 description_entry.pack()
 
 space20 = tk.Label(right_pane, text="")
