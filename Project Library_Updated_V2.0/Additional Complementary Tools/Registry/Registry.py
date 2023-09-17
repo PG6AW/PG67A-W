@@ -21,13 +21,13 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS users (
 
 cursor.execute("""CREATE TABLE IF NOT EXISTS books (
                     category TEXT,
-                    book_id TEXT,
+                    book_id INTEGER,
                     title TEXT,
                     author TEXT,
                     publisher TEXT,
-                    year_of_publish TEXT,
+                    year_of_publish INTEGER,
                     isbn TEXT,
-                    pages TEXT,
+                    pages INTEGER,
                     translated_by TEXT,
                     book_genre TEXT,
                     description TEXT
@@ -43,6 +43,13 @@ def register_user():
     national_id = national_id_entry.get()
     email = email_entry.get()
     postal_code = postal_code_entry.get()
+
+    if str(age) != "" :
+        try:
+            age = int(age)
+        except ValueError:
+            messagebox.showerror("Inappropriate Value", "Please enter a Number for 'Age'!")
+            return
 
     username_entry.delete(0, tk.END)
     name_entry.delete(0, tk.END)
@@ -75,6 +82,25 @@ def register_book():
     translated_by = translated_by_entry.get()
     book_genre = book_genre_entry.get()
     description = description_entry.get()
+
+    if book_id != "":
+        try:
+            book_id = int(book_id)
+        except ValueError:
+            messagebox.showerror("Inappropriate Value", "Please enter a Number for 'Book ID'!")
+            return
+    if year_of_publish != "":
+        try:
+            year_of_publish = int(year_of_publish)
+        except ValueError:
+            messagebox.showerror("Inappropriate Value", "Please enter a Number for 'Year of Publish'!")
+            return
+    if pages !="":
+        try:
+            pages = int(pages)
+        except ValueError:
+            messagebox.showerror("Inappropriate Value", "Please enter a Number for 'Pages'!")
+            return
 
     book_id_entry.delete(0, tk.END)
     title_entry.delete(0, tk.END)
@@ -220,27 +246,30 @@ def delete_user():
     user_name_delete.delete(0, tk.END)
 
 def exit_the_program():
-    window.destroy()
+    answer = messagebox.askyesnocancel("Quit Message", "Are you sure you're going to quit the registry environment?")
+    if answer:
+        window.destroy()
 
 window = tk.Tk()
 window.title("Registry")
 window.configure(bg="darkblue")
-window.geometry("900x1100")
+window.geometry("970x1050")
 window.resizable(False,False)
 
 left_pane = tk.Frame(window)
 left_pane.config(bg="darkblue")
-left_pane.pack(side=tk.LEFT, padx=10, pady=10)
+left_pane.pack(side=tk.LEFT, padx=10, pady=15)
+left_pane.place(relx=0.11, rely=0.06, anchor=tk.N)
 
 left_header_label = tk.Label(left_pane, text="User Registry", font=("bold"))
 left_header_label.config(bg="lightblue", font="impact 20", fg="#0000ff")
 left_header_label.pack(pady=30)
 
 username_label = tk.Label(left_pane, text="Username from library")
-username_label.config(bg="lightblue")
+username_label.config(bg="lightblue", font="helvetica 11 bold")
 username_label.pack(pady=7)
 username_entry = tk.Entry(left_pane)
-username_entry.config(bg="lightblue")
+username_entry.config(bg="lightgreen", fg="darkblue", font="calibri 13 bold", justify="center")
 username_entry.pack()
 
 space1 = tk.Label(left_pane, text="")
@@ -248,10 +277,10 @@ space1.configure(bg="darkblue")
 space1.pack()
 
 name_label = tk.Label(left_pane, text="Name")
-name_label.config(bg="lightblue")
+name_label.config(bg="lightblue", font="helvetica 11 bold")
 name_label.pack(pady=7)
 name_entry = tk.Entry(left_pane)
-name_entry.config(bg="lightblue")
+name_entry.config(bg="lightgreen", fg="darkblue", font="calibri 13 bold", justify="center")
 name_entry.pack()
 
 space2 = tk.Label(left_pane, text="")
@@ -259,10 +288,10 @@ space2.configure(bg="darkblue")
 space2.pack()
 
 middle_name_last_name_label = tk.Label(left_pane, text="Middle Name & Last Name")
-middle_name_last_name_label.config(bg="lightblue")
+middle_name_last_name_label.config(bg="lightblue", font="helvetica 11 bold")
 middle_name_last_name_label.pack(pady=7)
 middle_name_last_name_entry = tk.Entry(left_pane)
-middle_name_last_name_entry.config(bg="lightblue")
+middle_name_last_name_entry.config(bg="lightgreen", fg="darkblue", font="calibri 13 bold", justify="center")
 middle_name_last_name_entry.pack()
 
 space3 = tk.Label(left_pane, text="")
@@ -270,10 +299,10 @@ space3.configure(bg="darkblue")
 space3.pack()
 
 age_label = tk.Label(left_pane, text="Age")
-age_label.config(bg="lightblue")
+age_label.config(bg="lightblue", font="helvetica 11 bold")
 age_label.pack(pady=7)
 age_entry = tk.Entry(left_pane)
-age_entry.config(bg="lightblue")
+age_entry.config(bg="lightgreen", fg="darkblue", font="calibri 13 bold", justify="center")
 age_entry.pack()
 
 space4 = tk.Label(left_pane, text="")
@@ -281,10 +310,10 @@ space4.configure(bg="darkblue")
 space4.pack()
 
 address_label = tk.Label(left_pane, text="Address")
-address_label.config(bg="lightblue")
+address_label.config(bg="lightblue", font="helvetica 11 bold")
 address_label.pack(pady=7)
 address_entry = tk.Entry(left_pane)
-address_entry.config(bg="lightblue")
+address_entry.config(bg="lightgreen", fg="darkblue", font="calibri 13 bold", justify="center")
 address_entry.pack()
 
 space5 = tk.Label(left_pane, text="")
@@ -292,10 +321,10 @@ space5.configure(bg="darkblue")
 space5.pack()
 
 phone_number_label = tk.Label(left_pane, text="Phone Number")
-phone_number_label.config(bg="lightblue")
+phone_number_label.config(bg="lightblue", font="helvetica 11 bold")
 phone_number_label.pack(pady=7)
 phone_number_entry = tk.Entry(left_pane)
-phone_number_entry.config(bg="lightblue")
+phone_number_entry.config(bg="lightgreen", fg="darkblue", font="calibri 13 bold", justify="center")
 phone_number_entry.pack()
 
 space6 = tk.Label(left_pane, text="")
@@ -303,10 +332,10 @@ space6.configure(bg="darkblue")
 space6.pack()
 
 national_id_label = tk.Label(left_pane, text="National ID")
-national_id_label.config(bg="lightblue")
+national_id_label.config(bg="lightblue", font="helvetica 11 bold")
 national_id_label.pack(pady=7)
 national_id_entry = tk.Entry(left_pane)
-national_id_entry.config(bg="lightblue")
+national_id_entry.config(bg="lightgreen", fg="darkblue", font="calibri 13 bold", justify="center")
 national_id_entry.pack()
 
 space7 = tk.Label(left_pane, text="")
@@ -314,10 +343,10 @@ space7.configure(bg="darkblue")
 space7.pack()
 
 email_label = tk.Label(left_pane, text="Email")
-email_label.config(bg="lightblue")
+email_label.config(bg="lightblue", font="helvetica 11 bold")
 email_label.pack(pady=7)
 email_entry = tk.Entry(left_pane)
-email_entry.config(bg="lightblue")
+email_entry.config(bg="lightgreen", fg="darkblue", font="calibri 13 bold", justify="center")
 email_entry.pack()
 
 space8 = tk.Label(left_pane, text="")
@@ -325,10 +354,10 @@ space8.configure(bg="darkblue")
 space8.pack()
 
 postal_code_label = tk.Label(left_pane, text="Postal Code")
-postal_code_label.config(bg="lightblue")
+postal_code_label.config(bg="lightblue", font="helvetica 11 bold")
 postal_code_label.pack(pady=7)
 postal_code_entry = tk.Entry(left_pane)
-postal_code_entry.config(bg="lightblue")
+postal_code_entry.config(bg="lightgreen", fg="darkblue", font="calibri 13 bold", justify="center")
 postal_code_entry.pack()
 
 space9 = tk.Label(left_pane, text="")
@@ -342,18 +371,27 @@ register_user_button.pack(pady=10)
 middleframe1 = tk.Frame(window)
 middleframe1.config(bg="darkblue")
 middleframe1.pack(side=tk.BOTTOM, padx=8, pady=9)
-middleframe1.place(relx=0.5, rely=0.18, anchor=tk.N)
+middleframe1.place(relx=0.5, rely=0.007, anchor=tk.N)
 
 middlelabel1 = tk.Label(middleframe1, text="Anything Else! \u23CE", font="bold")
 middlelabel1.config(bg="lightblue", font="impact 20", fg="#0000ff")
 middlelabel1.pack(pady=30)
 
+middleframe5 = tk.Frame(window)
+middleframe5.config(bg="darkblue")
+middleframe5.pack(side=tk.BOTTOM, padx=8, pady=9)
+middleframe5.place(relx=0.5, rely=0.22, anchor=tk.N)
+
+middlelabel5 = tk.Label(middleframe5, text="____________OR____________", font="bold")
+middlelabel5.config(bg="darkblue", font="impact 20", fg="#00ff00")
+middlelabel5.pack(pady=30)
+
 middleframe2 = tk.Frame(window)
 middleframe2.config(bg="darkblue")
 middleframe2.pack(side=tk.BOTTOM, padx=8, pady=9)
-middleframe2.place(relx=0.5, rely=0.45, anchor=tk.N)
+middleframe2.place(relx=0.5, rely=0.46, anchor=tk.N)
 
-middlelabel2 = tk.Label(middleframe2, text="_______OR_______", font="bold")
+middlelabel2 = tk.Label(middleframe2, text="____________OR____________", font="bold")
 middlelabel2.config(bg="darkblue", font="impact 20", fg="#00ff00")
 middlelabel2.pack(pady=30)
 
@@ -362,8 +400,21 @@ middleframe3.config(bg="darkblue")
 middleframe3.pack(side=tk.BOTTOM, padx=8, pady=9)
 middleframe3.place(relx=0.5, rely=0.8, anchor=tk.N)
 
+middleframe4 = tk.Frame(window)
+middleframe4.config(bg="darkblue")
+middleframe4.pack(side=tk.BOTTOM, padx=8, pady=9)
+middleframe4.place(relx=0.5, rely=0.14, anchor=tk.N)
+
 exit_button = tk.Button(middleframe3, text="Exit", bg="purple", fg="yellow", relief="sunken", command=exit_the_program, font="Arial 17 bold")
 exit_button.pack()
+
+middleframe6 = tk.Frame(window)
+middleframe6.config(bg="darkblue")
+middleframe6.pack(side=tk.BOTTOM, padx=8, pady=9)
+middleframe6.place(relx=0.5, rely=0.97, anchor=tk.N)
+
+github_label = tk.Label(middleframe6, text="Made with Love by @PG6AW !", font="tahoma 11 bold", fg="green", bg="darkblue")
+github_label.pack()
 
 middle_frame_books = tk.Frame(window)
 middle_frame_books.config(bg="darkblue")
@@ -391,7 +442,8 @@ user_name_delete_button.pack(pady=5)
 
 right_pane = tk.Frame(window)
 right_pane.config(bg="darkblue")
-right_pane.pack(side=tk.RIGHT, padx=10, pady=10)
+right_pane.pack(side=tk.RIGHT, padx=10, pady=15)
+right_pane.place(relx=0.89, rely=0, anchor=tk.N)
 
 space21 = tk.Label(right_pane, text="")
 space21.configure(bg="darkblue", height=1)
@@ -402,7 +454,7 @@ right_header_label.config(bg="lightblue", font="impact 20", fg="#0000ff")
 right_header_label.pack(pady=30)
 
 category_label = tk.Label(right_pane, text="Book Category")
-category_label.config(bg="lightblue")
+category_label.config(bg="lightblue", font="helvetica 11 bold")
 category_label.pack(pady=7)
 category_var = tk.StringVar(right_pane)
 categories = ["Engineering", "Meta Physics", "Mathematics", "Motivational", "Narrative", "Comedy", "Memoir", "Fiction", "History", "Poetry", "Science", "Novel", "Phsychology", "Romance",
@@ -413,7 +465,7 @@ categories = ["Engineering", "Meta Physics", "Mathematics", "Motivational", "Nar
 category_var = tk.StringVar(right_pane)
 category_var.set(categories[0])
 category_dropdown = tk.OptionMenu(right_pane, category_var, *categories)
-category_dropdown.config(font=("bold", 8), background="lightblue")
+category_dropdown.config(font="helvetica 10 bold", background="lightgreen")
 category_dropdown.pack()
 
 space10 = tk.Label(right_pane, text="")
@@ -421,10 +473,10 @@ space10.configure(bg="darkblue")
 space10.pack()
 
 book_id_label = tk.Label(right_pane, text="Book ID from library")
-book_id_label.config(bg="lightblue")
+book_id_label.config(bg="lightblue", font="helvetica 11 bold")
 book_id_label.pack(pady=7)
 book_id_entry = tk.Entry(right_pane)
-book_id_entry.config(bg="lightblue")
+book_id_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
 book_id_entry.pack()
 
 space11 = tk.Label(right_pane, text="")
@@ -432,10 +484,10 @@ space11.configure(bg="darkblue")
 space11.pack()
 
 title_label = tk.Label(right_pane, text="Title")
-title_label.config(bg="lightblue")
+title_label.config(bg="lightblue", font="helvetica 11 bold")
 title_label.pack(pady=7)
 title_entry = tk.Entry(right_pane)
-title_entry.configure(bg="lightblue")
+title_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
 title_entry.pack()
 
 space12 = tk.Label(right_pane, text="")
@@ -443,10 +495,10 @@ space12.configure(bg="darkblue")
 space12.pack()
 
 author_label = tk.Label(right_pane, text="Author")
-author_label.config(bg="lightblue")
+author_label.config(bg="lightblue", font="helvetica 11 bold")
 author_label.pack(pady=7)
 author_entry = tk.Entry(right_pane)
-author_entry.config(bg="lightblue")
+author_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
 author_entry.pack()
 
 space13 = tk.Label(right_pane, text="")
@@ -454,10 +506,10 @@ space13.configure(bg="darkblue")
 space13.pack()
 
 publisher_label = tk.Label(right_pane, text="Publisher")
-publisher_label.config(bg="lightblue")
+publisher_label.config(bg="lightblue", font="helvetica 11 bold")
 publisher_label.pack(pady=7)
 publisher_entry = tk.Entry(right_pane)
-publisher_entry.config(bg="lightblue")
+publisher_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
 publisher_entry.pack()
 
 space14 = tk.Label(right_pane, text="")
@@ -466,9 +518,9 @@ space14.pack()
 
 year_of_publish_label = tk.Label(right_pane, text="Year of Publish")
 year_of_publish_label.pack(pady=7)
-year_of_publish_label.config(bg="lightblue")
+year_of_publish_label.config(bg="lightblue", font="helvetica 11 bold")
 year_of_publish_entry = tk.Entry(right_pane)
-year_of_publish_entry.config(bg="lightblue")
+year_of_publish_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
 year_of_publish_entry.pack()
 
 space15 = tk.Label(right_pane, text="")
@@ -476,10 +528,10 @@ space15.configure(bg="darkblue")
 space15.pack()
 
 isbn_label = tk.Label(right_pane, text="ISBN")
-isbn_label.config(bg="lightblue")
+isbn_label.config(bg="lightblue", font="helvetica 11 bold")
 isbn_label.pack(pady=7)
 isbn_entry = tk.Entry(right_pane)
-isbn_entry.config(bg="lightblue")
+isbn_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
 isbn_entry.pack()
 
 space16 = tk.Label(right_pane, text="")
@@ -487,10 +539,10 @@ space16.configure(bg="darkblue")
 space16.pack()
 
 pages_label = tk.Label(right_pane, text="Pages")
-pages_label.config(bg="lightblue")
+pages_label.config(bg="lightblue", font="helvetica 11 bold")
 pages_label.pack(pady=7)
 pages_entry = tk.Entry(right_pane)
-pages_entry.config(bg="lightblue")
+pages_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
 pages_entry.pack()
 
 space17 = tk.Label(right_pane, text="")
@@ -498,10 +550,10 @@ space17.configure(bg="darkblue")
 space17.pack()
 
 translated_by_label = tk.Label(right_pane, text="Translated By")
-translated_by_label.config(bg="lightblue")
+translated_by_label.config(bg="lightblue", font="helvetica 11 bold")
 translated_by_label.pack(pady=7)
 translated_by_entry = tk.Entry(right_pane)
-translated_by_entry.config(bg="lightblue")
+translated_by_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
 translated_by_entry.pack()
 
 space18 = tk.Label(right_pane, text="")
@@ -509,10 +561,10 @@ space18.configure(bg="darkblue")
 space18.pack()
 
 book_genre_label = tk.Label(right_pane, text="Book Genre")
-book_genre_label.config(bg="lightblue")
+book_genre_label.config(bg="lightblue", font="helvetica 11 bold")
 book_genre_label.pack(pady=7)
 book_genre_entry = tk.Entry(right_pane)
-book_genre_entry.config(bg="lightblue")
+book_genre_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
 book_genre_entry.pack()
 
 space19 = tk.Label(right_pane, text="")
@@ -520,10 +572,10 @@ space19.configure(bg="darkblue")
 space19.pack()
 
 description_label = tk.Label(right_pane, text="Book Description")
-description_label.config(bg="lightblue")
+description_label.config(bg="lightblue", font="helvetica 11 bold")
 description_label.pack(pady=7)
 description_entry = tk.Entry(right_pane)
-description_entry.config(bg="lightblue")
+description_entry.config(bg="lightgreen", fg="darkblue", font="calibri 10 bold", justify="center", width=26)
 description_entry.pack()
 
 space20 = tk.Label(right_pane, text="")
@@ -538,13 +590,13 @@ upper_frame = tk.Frame(window)
 upper_frame.config(bg="darkblue")
 upper_frame.pack(side=tk.TOP, pady=6)
 
-show_registered_users_button = tk.Button(upper_frame, text="Show Registered Users", bg="#00ff00", width="17", height="3", command=show_registered_users)
+show_registered_users_button = tk.Button(middleframe4, text="Show Registered Users", bg="#00ff00", width="17", height="3", command=show_registered_users)
 show_registered_users_button.pack(side=tk.LEFT,padx=1)
 
-show_registered_books_button = tk.Button(upper_frame, text="Show Registered Books", bg="#00ff00", width="17", height="3", command=show_registered_books)
+show_registered_books_button = tk.Button(middleframe4, text="Show Registered Books", bg="#00ff00", width="17", height="3", command=show_registered_books)
 show_registered_books_button.pack(side=tk.LEFT,padx=1)
 
-investigator_button = tk.Button(upper_frame, text="Investigator", bg="#00ff00", width="10", height="3", command=search_records)
+investigator_button = tk.Button(middleframe4, text="Investigator", bg="#00ff00", width="10", height="3", command=search_records)
 investigator_button.pack(side=tk.LEFT,padx=1)
 
 window.mainloop()
