@@ -39,6 +39,16 @@ def add_book():
     pages = pages_entry.get()
     instances = instances_entry.get()
 
+    empty_list = []
+    if str(title) == "" :
+        empty_list.append("Book Title")
+    if str(author) == "" :
+        empty_list.append("Author")
+    if str(pages) == "" :
+        empty_list.append("Number of Pages")
+    if str(instances) == "" :
+        empty_list.append("Number of Instances")
+
     try:
         pages = int(pages)
     except ValueError:
@@ -57,9 +67,16 @@ def add_book():
             pass
 
     if title == "" or author == "" or str(pages) == "" or str(instances) == "":
-        messagebox.showerror("Error", "All fields must be filled in.")
+        messagebox.showerror("Error", f"All fields must be filled in!\n\nThe following entries are empty:\n---> {' , '.join(empty_list)} <---")
         return
-
+    
+    if str(title) != "" and str(author) != "" and str(pages) != "" and str(instances) != "":
+        book_add_cofirmation = messagebox.askyesno("Book-Add Confirmation", "Are you sure you're going to add this book?\nAlways double-check before you confirm!\n\nPlease note that you can always come back and Update the specific book identifying it with its Title from this applet.\n\n--CONFIRM AND CONTINUE?--")
+        if book_add_cofirmation:
+            pass
+        else:
+            return
+        
     cursor.execute("SELECT * FROM books WHERE title=?", (title,))
     book = cursor.fetchone()
 
@@ -88,7 +105,7 @@ def exit_the_program():
         root.destroy()
         messagebox.showinfo("Exit Message", "Successfully exited the Library!")
     except TclError:
-        messagebox.showinfo("Manipulation Notice", "Access Manager successfully closed but Main window was already dealt with by Admin!")
+        messagebox.showinfo("Manipulation Notice", "Access Manager successfully closed but Main window was already dealt with by an admin!")
 
 def add_user():
     username = username_entry.get()
@@ -97,6 +114,13 @@ def add_user():
     if username == "" or password == "":
         messagebox.showerror("Error", "All fields must be filled in.")
         return
+
+    if str(username) != "" and str(password) != "":
+        user_add_cofirmation = messagebox.askyesno("User-Add Confirmation", "Are you sure you're going to add the following User?\nAlways double-check before you confirm!\n\nPlease note that you can always come back and Update the specific User identifying him/her with their unique Username from this applet.\n\n--CONFIRM AND CONTINUE?--")
+        if user_add_cofirmation:
+            pass
+        else:
+            return
 
     cursor.execute("SELECT * FROM users WHERE username=?", (username,))
     user = cursor.fetchone()
@@ -140,13 +164,24 @@ def retrieve_ids():
 def delete_book():
     book_id = book_id_entry_delete.get()
 
+    if str(book_id) == "" :
+        messagebox.showerror("Book Not Specified!!!", "Please provide us with a specified Book ID or retrieve it if you need to delete a book!\n\nPlease note that you always need the book ID anytime you want to delete a book and not its Title per se would do the trick for you alone!\n\nWe mandated this to force admins to double-check their request and make sure everything's alright before making their decision firm!\n\nThanks for understanding the potential of this action!")
+        return
     try:
         book_id = int(book_id)
     except ValueError:
         if str(book_id) != "" :
-            messagebox.showerror("Book ID ValueType Error", "'Book ID' must be a Number! You can also retrieve it.")
+            messagebox.showerror("Book ID ValueType Error", "'Book ID' must be a Number! You can also retrieve it from the applet above!")
+            return
         else:
             pass
+
+    if str(book_id) != "" :
+        delete_confirm = messagebox.askyesno("Confirm Book Deletion", "You're going to completely purge a book from the database by its ID!\nUndertaking its consequences would be a bit speculative and pose risks as it could make an unwanted change to the database!\nSure what you're really doing while reconsidering all the risks involved?\nIf Yes & have already Double-Checked everything, then ...\n\n--PROCEED?--")
+        if delete_confirm:
+            pass
+        else:
+            return
 
     cursor.execute("DELETE FROM books WHERE id=?", (book_id,))
     conn.commit()
@@ -155,8 +190,6 @@ def delete_book():
         messagebox.showinfo("Deleted", "Book has been deleted.")
     elif str(book_id) != "" :
         messagebox.showerror("Error", "Book not found.")
-    if str(book_id) == "" :
-        messagebox.showerror("Empty field", "Please input a Book ID or retrieve it if you need to delete a book.")
 
     book_id_entry_delete.delete(0, tk.END)
 
@@ -186,6 +219,13 @@ def borrow_book():
     if username == "" or password == "" or str(book_id) == "" or str(days) == "":
         messagebox.showerror("Error", "All fields must be filled in.")
         return
+
+    if str(username) != "" and str(password) != "" and str(book_id) != "" and str(days) != "":
+        borrow_confirmation = messagebox.askyesno("Borrow Confirmation", "It seems as though an admin's attmepting to borrow a user a specific Book!\nPrepare for a Double Check & ...\n\n--PROCEED?--")
+        if borrow_confirmation:
+            pass
+        else:
+            return
 
     cursor.execute(
         "SELECT * FROM users WHERE username=? AND password=?", (username, password))
@@ -245,6 +285,13 @@ def return_book():
     if username == "" or password == "" or str(book_id) == "":
         messagebox.showerror("Error", "All fields must be filled in.")
         return
+
+    if str(username) != "" and str(password) != "" and str(book_id) != "":
+        return_confirmation = messagebox.askyesno("Give-back Confirmation", "An admin's attempting to return a book on behalf of a user which can assign to them a free badge or something!\n\n--PROCEED?--")
+        if return_confirmation:
+            pass
+        else:
+            return
 
     cursor.execute(
         "SELECT * FROM users WHERE username=? AND password=?", (username, password))
@@ -515,7 +562,6 @@ space42 = tk.Label(access_manager, text="")
 space42.configure(bg="#000000")
 space43 = tk.Label(access_manager, text="")
 space43.configure(bg="#000000")
-
 
 update_database_button = tk.Button(access_manager, text="Update Database's Timezone!", background="#00ff00", foreground="darkblue", width=40, height=2, relief="ridge", command=run_update_database)
 check_charged_users_button = tk.Button(access_manager, text="Check Charged Users", background="#00ff00", foreground="darkblue", width=40, height=2, relief="ridge", command=run_check_charged_users)
