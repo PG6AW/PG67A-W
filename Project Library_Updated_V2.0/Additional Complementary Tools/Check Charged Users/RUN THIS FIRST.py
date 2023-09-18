@@ -41,7 +41,7 @@ def update_database():
             #     cursor.execute("UPDATE users SET days_remaining = ? WHERE date_borrowed = ?", (days_margin, date_borrowed))
             #     cursor.execute("UPDATE users SET date_borrowed = ? WHERE id = ?", (datetime.now(), Id))
 
-            if int(current_day) > int(day_borrowed): #To avoid making insignificant changes to the database over time (for more accurate timestamping against what we have just commented above this method)
+            if int(current_day) > int(day_borrowed) or int(current_day) < int(day_borrowed): #To avoid making insignificant changes to the database over time (for more accurate timestamping against what we have just commented above this method)
                 days_margin = return_day - current_day #The commented part above also updates the time remaining till the breakpoint set predefined.
                 days_margin = str(days_margin)
 
