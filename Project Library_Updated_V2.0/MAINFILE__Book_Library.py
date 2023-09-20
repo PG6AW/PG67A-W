@@ -4,6 +4,7 @@ import sqlite3
 import datetime
 from tkinter.font import Font
 import subprocess
+import getpass
 
 
 conn = sqlite3.connect("library.db")
@@ -51,7 +52,7 @@ def add_book():
 
     try:
         pages = int(pages)
-    except ValueError:
+    except (ValueError , TypeError):
         if str(pages) != "" :
             messagebox.showerror("Book Pages ValueType Error", "Value for 'Number of Pages' must be Numerical!")
             return
@@ -59,7 +60,7 @@ def add_book():
             pass
     try:
         instances = int(instances)
-    except ValueError:
+    except (ValueError , TypeError):
         if str(instances) != "" :
             messagebox.showerror("Book Instances ValueType Error", "Value for 'Number of Instances' must be Numerical!")
             return
@@ -91,6 +92,35 @@ def add_book():
         conn.commit()
         messagebox.showinfo("Added", "New book has been added.")
 
+    cursor.execute("SELECT id FROM books WHERE title=?", (title,))
+    book_id_tuple = cursor.fetchone()
+    book_id = book_id_tuple[0] if book_id_tuple else None
+    try:
+        book_id = int(book_id)
+    except (TypeError , ValueError):
+        pass
+    current_username = getpass.getuser()
+    event_by_admin = current_username
+    book_title = title
+    book_author = author
+
+    conn1 = sqlite3.connect("event_logs.db")
+    cursor1 = conn1.cursor()
+    cursor1.execute("""CREATE TABLE IF NOT EXISTS books_added (
+                    event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    book_id INTEGER,
+                    book_title TEXT,
+                    book_author TEXT,
+                    event_by_admin TEXT,
+                    event_date TEXT
+                    )""")
+    conn1.commit()
+
+    cursor1.execute("INSERT INTO books_added (book_id, book_title, book_author, event_by_admin, event_date) VALUES (?, ?, ?, ?, ?)",
+                (book_id, book_title, book_author, event_by_admin, datetime.datetime.now()))
+    conn1.commit()
+    conn1.close()
+
     book_title_entry.delete(0, tk.END)
     author_entry.delete(0, tk.END)
     pages_entry.delete(0, tk.END)
@@ -98,6 +128,7 @@ def add_book():
 
 def exit_the_program():
     try:
+        conn.close()
         access_manager.destroy()
     except TclError:
         pass
@@ -135,9 +166,27 @@ def add_user():
         conn.commit()
         messagebox.showinfo("Added", "New user has been added.")
 
+    current_username = getpass.getuser()
+    event_by_admin = current_username
+
+    conn1 = sqlite3.connect("event_logs.db")
+    cursor1 = conn1.cursor()
+    cursor1.execute("""CREATE TABLE IF NOT EXISTS user_signup (
+                    event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    username TEXT,
+                    password TEXT,
+                    event_by_admin TEXT,
+                    event_date TEXT
+                    )""")
+    conn1.commit()
+
+    cursor1.execute("INSERT INTO user_signup (username, password, event_by_admin, event_date) VALUES (?, ?, ?, ?)",
+                (username, password, event_by_admin, datetime.datetime.now()))
+    conn1.commit()
+    conn1.close()
+
     username_entry.delete(0, tk.END)
     password_entry.delete(0, tk.END)
-
 
 def retrieve_ids():
     username = username_entry_retrieve.get()
@@ -165,11 +214,11 @@ def delete_book():
     book_id = book_id_entry_delete.get()
 
     if str(book_id) == "" :
-        messagebox.showerror("Book Not Specified!!!", "Please provide us with a specified Book ID or retrieve it if you need to delete a book!\n\nPlease note that you always need the book ID anytime you want to delete a book and not its Title per se would do the trick for you alone!\n\nWe mandated this to force admins to double-check their request and make sure everything's alright before making their decision firm!\n\nThanks for understanding the potential of this action!")
+        messagebox.showerror("Book Not Specified!!!", "Please provide us with a specified Book ID or retrieve it if you need to delete a book!\n\nPlease note that you always need the book ID anytime you want to delete a book and not its Title per se would do the trick for you alone!\n\nWe mandated this to force admins to think over their request and make sure everything's alright before making their decision firm!\n\nThanks for understanding the potential of this action!")
         return
     try:
         book_id = int(book_id)
-    except ValueError:
+    except (ValueError , TypeError):
         if str(book_id) != "" :
             messagebox.showerror("Book ID ValueType Error", "'Book ID' must be a Number! You can also retrieve it from the applet above!")
             return
@@ -177,11 +226,50 @@ def delete_book():
             pass
 
     if str(book_id) != "" :
-        delete_confirm = messagebox.askyesno("Confirm Book Deletion", "You're going to completely purge a book from the database by its ID!\nUndertaking its consequences would be a bit speculative and pose risks as it could make an unwanted change to the database!\nSure what you're really doing while reconsidering all the risks involved?\nIf Yes & have already Double-Checked everything, then ...\n\n--PROCEED?--")
+        delete_confirm = messagebox.askyesno("Confirm Book Deletion", "You're going to completely wipe a book from the database by its ID!\nUndertaking its consequences would be a bit speculative and pose risks as it could make a potentially unwanted change to the database!\nSure what you're really doing while reconsidering all the risks involved?\nIf Yes & have already Double-Checked everything, then ...\n\n--Hit Yes to PROCEED?--")
         if delete_confirm:
             pass
         else:
             return
+
+    borrowed_by_user = False
+    cursor.execute("SELECT borrowed_ids FROM users")
+    rows = cursor.fetchall()
+    for row in rows:
+        row1 = list(row)
+        for i in row1:
+            pass
+        i = str(i)
+        if str(book_id) in i:
+            borrowed_by_user = True
+    if borrowed_by_user == True:
+        last_check = messagebox.askyesno("Already Borrowed", "This book is currently borrowed by a User or Users!\nIt's highly recommended to wait before the book is returned. You can skip this; however, as a consequence, you'll need to free the user MANUALLY after they have returned the book or paid off their debt.\n\nAre you sure you're going to Delete the book now?")
+        if last_check:
+            pass
+        else:
+            return
+
+    current_username = getpass.getuser()
+    event_by_admin = current_username
+    cursor.execute("SELECT title FROM books WHERE id=?", (book_id,))
+    book_title_tuple = cursor.fetchone()
+    book_title = book_title_tuple[0] if book_title_tuple else None
+
+    conn1 = sqlite3.connect("event_logs.db")
+    cursor1 = conn1.cursor()
+    cursor1.execute("""CREATE TABLE IF NOT EXISTS deleted_books (
+                    event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    book_title TEXT,
+                    book_id INTEGER,
+                    event_by_admin TEXT,
+                    event_date TEXT
+                    )""")
+    conn1.commit()
+
+    cursor1.execute("INSERT INTO deleted_books (book_title, book_id, event_by_admin, event_date) VALUES (?, ?, ?, ?)",
+                (book_title, book_id, event_by_admin, datetime.datetime.now()))
+    conn1.commit()
+    conn1.close()
 
     cursor.execute("DELETE FROM books WHERE id=?", (book_id,))
     conn.commit()
@@ -201,7 +289,7 @@ def borrow_book():
 
     try:
         book_id = int(book_id)
-    except ValueError:
+    except (ValueError , TypeError):
         if str(book_id) != "" :
             messagebox.showerror("Book ID ValueType Error", "'Book ID' must be a Number! You can also retrieve it.")
             return
@@ -209,9 +297,9 @@ def borrow_book():
             pass
     try:
         days = int(days)
-    except ValueError:
+    except (ValueError , TypeError):
         if str(days) != "" :
-            messagebox.showerror("Days ValueType Error", "'Number of Days' must be a Number!")
+            messagebox.showerror("Days ValueType Error", "'Number of Days' must be a Number!\n\n*** Also keep in mind you're never allowed to borrow a book for more than 40 days! ***")
             return
         else:
             pass
@@ -219,9 +307,16 @@ def borrow_book():
     if username == "" or password == "" or str(book_id) == "" or str(days) == "":
         messagebox.showerror("Error", "All fields must be filled in.")
         return
+    
+    if days > 40:
+
+        messagebox.showerror("Days Error", "Days exceeded the allowed limit!\nBear in mind that no more than 40 days could be maxing out the cap.")
+        return
+    else:
+        pass
 
     if str(username) != "" and str(password) != "" and str(book_id) != "" and str(days) != "":
-        borrow_confirmation = messagebox.askyesno("Borrow Confirmation", "It seems as though an admin's attmepting to borrow a user a specific Book!\nPrepare for a Double Check & ...\n\n--PROCEED?--")
+        borrow_confirmation = messagebox.askyesno("Borrow Confirmation", "It seems as though an admin is attmepting to borrow a specific book for a User!\nPrepare for a Double Check & ...\n\n--PROCEED?--")
         if borrow_confirmation:
             pass
         else:
@@ -256,10 +351,72 @@ def borrow_book():
     borrowed_ids.append(str(book_id))
     borrowed_ids_str = ",".join(borrowed_ids)
 
-    cursor.execute("UPDATE users SET borrowed_ids=?, days_remaining=?, date_borrowed=? WHERE id=?",
-                   (borrowed_ids_str, days, datetime.datetime.now(), user[0]))
-    cursor.execute("UPDATE books SET instances=? WHERE id=?", (instances - 1, book[0]))
-    conn.commit()
+    cursor.execute("SELECT days_remaining FROM users WHERE username=?", (username,))
+    days_remaining_tuple = cursor.fetchone()
+    days_remaining = days_remaining_tuple[0] if days_remaining_tuple else None
+
+    borrowed_ids_string = str(borrowed_ids).split(",")
+
+    try:
+        days_remaining = int(days_remaining)
+    except (TypeError , ValueError):
+        pass
+
+    if len(borrowed_ids_string) < 5:
+
+        cursor.execute("UPDATE users SET borrowed_ids=?, date_borrowed=? WHERE id=?",
+                    (borrowed_ids_str, datetime.datetime.now(), user[0]))
+        if days_remaining is None or str(days_remaining) == "user_exempt" or str(days_remaining) == "":
+            cursor.execute("UPDATE users SET days_remaining=? WHERE id=?", (days, user[0]))
+        else:
+            pass
+        
+        try:
+            days_remaining = int(days_remaining)
+            if days_remaining is None or int(days_remaining) < days:
+                cursor.execute("UPDATE users SET days_remaining=? WHERE id=?", (days, user[0]))
+        except (TypeError , ValueError):
+            pass
+
+        cursor.execute("UPDATE books SET instances=? WHERE id=?", (instances - 1, book[0]))
+        conn.commit()
+    else:
+        messagebox.showerror("Limit Exceeded", "To fight off abuse, Each user can only borrow up to 4 books in a row & NO MORE than the specified limit!\nReturn one book to free up space for the other!")
+        return
+
+    cursor.execute("SELECT id FROM users WHERE username=?", (username,))
+    user_id_tuple = cursor.fetchone()
+    user_id = user_id_tuple[0] if user_id_tuple else None
+    try:
+        user_id = int(user_id)
+    except (TypeError , ValueError):
+        pass
+    cursor.execute("SELECT title FROM books WHERE id=?", (book_id,))
+    book_title_tuple = cursor.fetchone()
+    book_title = book_title_tuple[0] if book_title_tuple else None
+    days_period = days
+    current_username = getpass.getuser()
+    event_by_admin = current_username
+
+
+    conn1 = sqlite3.connect("event_logs.db")
+    cursor1 = conn1.cursor()
+    cursor1.execute("""CREATE TABLE IF NOT EXISTS borrowed_books_by_users (
+                    event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    user_id INTEGER,
+                    username TEXT,
+                    book_id INTEGER,
+                    book_title TEXT,
+                    days_period INTEGER,
+                    event_by_admin TEXT,
+                    event_date TEXT
+                    )""")
+    conn1.commit()
+
+    cursor1.execute("INSERT INTO borrowed_books_by_users (user_id, username, book_id, book_title, days_period, event_by_admin, event_date) VALUES (?, ?, ?, ?, ?, ?, ?)",
+                (user_id, username, book_id, book_title, days_period, event_by_admin, datetime.datetime.now()))
+    conn1.commit()
+    conn1.close()
 
     messagebox.showinfo("Borrowed", "Book has been borrowed successfully.")
 
@@ -275,7 +432,7 @@ def return_book():
 
     try:
         book_id = int(book_id)
-    except ValueError:
+    except (ValueError , TypeError):
         if str(book_id) != "" :
             messagebox.showerror("Book ID error", "'Book ID' must be a Number! You can also retrieve it.")
             return
@@ -324,6 +481,30 @@ def return_book():
         cursor.execute("UPDATE users SET days_remaining='user_exempt' WHERE id=?", (user[0],))
 
     conn.commit()
+
+    current_username = getpass.getuser()
+    event_by_admin = current_username
+    cursor.execute("SELECT title FROM books WHERE id=?", (book_id,))
+    book_title_tuple = cursor.fetchone()
+    book_title = book_title_tuple[0] if book_title_tuple else None
+
+
+    conn1 = sqlite3.connect("event_logs.db")
+    cursor1 = conn1.cursor()
+    cursor1.execute("""CREATE TABLE IF NOT EXISTS returned_books (
+                    event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    username TEXT,
+                    book_title TEXT,
+                    book_id INTEGER,
+                    event_by_admin TEXT,
+                    event_date TEXT
+                    )""")
+    conn1.commit()
+
+    cursor1.execute("INSERT INTO returned_books (username, book_title, book_id, event_by_admin, event_date) VALUES (?, ?, ?, ?, ?)",
+                (username, book_title, book_id, event_by_admin, datetime.datetime.now()))
+    conn1.commit()
+    conn1.close()
 
     messagebox.showinfo("Returned", "Book has been returned successfully.")
 
@@ -587,3 +768,4 @@ exit_button.pack()
 
 access_manager.mainloop()
 root.mainloop()
+conn.close()
