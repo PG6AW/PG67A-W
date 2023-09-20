@@ -2,7 +2,8 @@
 import tkinter as tk
 from tkinter import messagebox
 import sqlite3
-
+import datetime
+import getpass
 
 def free_user():
     user_id = id_entry.get()
@@ -39,26 +40,52 @@ def free_user():
 
     messagebox.showinfo("Success", "User Successfully Redeemed of any Charge!")
 
+    user_id = str(user_id)
+    username = str(username)
+    try:
+        user_id = int(user_id)
+    except (ValueError , TypeError):
+        pass
+
+    current_username = getpass.getuser()
+    event_by_admin = current_username
+    conn1 = sqlite3.connect("event_logs.db")
+    cursor1 = conn1.cursor()
+    cursor1.execute("""CREATE TABLE IF NOT EXISTS user_charge_redemption (
+                    event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    note TEXT,
+                    username TEXT,
+                    user_id INTEGER,
+                    event_by_admin TEXT,
+                    event_date TEXT
+                    )""")
+    conn1.commit()
+
+    cursor1.execute("INSERT INTO user_charge_redemption (note, username, user_id, event_by_admin, event_date) VALUES (?, ?, ?, ?, ?)",
+                ("Admin User-Free Attempt", username, user_id, event_by_admin, datetime.datetime.now()))
+    conn1.commit()
+    conn1.close()
+
 def exit_the_program():
     window.destroy()
 
 window = tk.Tk()
 window.title("Free User")
 window.geometry("1000x376")
-window.configure(bg="#a85454")
+window.configure(bg="blue")
 window.resizable(False,False)
 
 label_text = "Please enter a Username or an ID of the user you want to Free. Use this only if you need to free a user of Charge:\n"
-label = tk.Label(window, text=label_text, font="tahoma 14 italic", bg="#a85454", fg="white")
+label = tk.Label(window, text=label_text, font="tahoma 14 italic", bg="blue", fg="yellow")
 label.pack(pady=20)
 
-id_label = tk.Label(window, text="ID:", font="arial 14 bold", bg="#a85454", fg="#000000")
+id_label = tk.Label(window, text="ID:", font="arial 14 bold", bg="blue", fg="yellow")
 id_label.pack()
 
 id_entry = tk.Entry(window, font="Helvetica 14 italic", justify="center", width=60, fg="red")
 id_entry.pack(pady=10)
 
-username_label = tk.Label(window, text="Username:", font="arial 14 bold", bg="#a85454", fg="#000000")
+username_label = tk.Label(window, text="Username:", font="arial 14 bold", bg="blue", fg="yellow")
 username_label.pack()
 
 username_entry = tk.Entry(window, font="Helvetica 14 italic", justify="center", width=80, fg="red")
