@@ -3,10 +3,11 @@
 import tkinter as tk
 from tkinter import messagebox , ttk
 import sqlite3
+import datetime
+import getpass
 
 conn = sqlite3.connect("registry.db")
 cursor = conn.cursor()
-
 cursor.execute("""CREATE TABLE IF NOT EXISTS users (
                     username TEXT UNIQUE,
                     name TEXT,
@@ -32,6 +33,7 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS books (
                     book_genre TEXT,
                     description TEXT
                 )""")
+conn.commit()
 
 def register_user():
     username = username_entry.get()
@@ -71,6 +73,31 @@ def register_user():
             "UPDATE users SET name=?, middle_name_last_name=?, age=?, address=?, phone_number=?, national_id=?, email=?, postal_code=? WHERE username=?", (name, middle_name_last_name, age, address, phone_number, national_id, email, postal_code, username))
         conn.commit()
         messagebox.showinfo("Updated", "User info has been updated!")
+
+    current_username = getpass.getuser()
+    event_by_admin = current_username
+    conn1 = sqlite3.connect("event_logs.db")
+    cursor1 = conn1.cursor()
+    cursor1.execute("""CREATE TABLE IF NOT EXISTS registered_users (
+                    event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    username TEXT,
+                    name TEXT,
+                    middle_name_last_name TEXT,
+                    age INTEGER,
+                    address TEXT,
+                    phone_number TEXT,
+                    national_id TEXT,
+                    email TEXT,
+                    postal_code TEXT,
+                    event_by_admin TEXT,
+                    event_date TEXT
+                    )""")
+    conn1.commit()
+
+    cursor1.execute("INSERT INTO registered_users (username, name, middle_name_last_name, age, address, phone_number, national_id, email, postal_code, event_by_admin, event_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (username, name, middle_name_last_name, age, address, phone_number, national_id, email, postal_code, event_by_admin, datetime.datetime.now()))
+    conn1.commit()
+    conn1.close()
 
     username_entry.delete(0, tk.END)
     name_entry.delete(0, tk.END)
@@ -136,6 +163,33 @@ def register_book():
         cursor.execute("UPDATE books SET category=?, title=?, author=?, publisher=?, year_of_publish=?, isbn=?, pages=?, translated_by=?, book_genre=?, description=? WHERE book_id=?", (category, title, author, publisher, year_of_publish, isbn, pages, translated_by, book_genre, description, book_id))
         conn.commit()
         messagebox.showinfo("Updated", "Book info has been updated!")
+
+    current_username = getpass.getuser()
+    event_by_admin = current_username
+    conn1 = sqlite3.connect("event_logs.db")
+    cursor1 = conn1.cursor()
+    cursor1.execute("""CREATE TABLE IF NOT EXISTS registered_books (
+                    event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    category TEXT,
+                    book_id INTEGER,
+                    title TEXT,
+                    author TEXT,
+                    publisher TEXT,
+                    year_of_publish INTEGER,
+                    isbn TEXT,
+                    pages INTEGER,
+                    translated_by TEXT,
+                    book_genre TEXT,
+                    description TEXT,
+                    event_by_admin TEXT,
+                    event_date TEXT
+                    )""")
+    conn1.commit()
+
+    cursor1.execute("INSERT INTO registered_books (category, book_id, title, author, publisher, year_of_publish, isbn, pages, translated_by, book_genre, description, event_by_admin, event_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (category, book_id, title, author, publisher, year_of_publish, isbn, pages, translated_by, book_genre, description, event_by_admin, datetime.datetime.now()))
+    conn1.commit()
+    conn1.close()
 
     book_id_entry.delete(0, tk.END)
     title_entry.delete(0, tk.END)
@@ -269,8 +323,27 @@ def delete_book():
 
     if cursor.rowcount > 0:
         messagebox.showinfo("Deleted", "Book has been deleted.")
+        pass
     else:
         messagebox.showerror("Error", "Book not found.")
+        return
+
+    current_username = getpass.getuser()
+    event_by_admin = current_username
+    conn1 = sqlite3.connect("event_logs.db")
+    cursor1 = conn1.cursor()
+    cursor1.execute("""CREATE TABLE IF NOT EXISTS deleted_registered_books (
+                    event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    book_title TEXT,
+                    event_by_admin TEXT,
+                    event_date TEXT
+                    )""")
+    conn1.commit()
+
+    cursor1.execute("INSERT INTO deleted_registered_books (book_title, event_by_admin, event_date) VALUES (?, ?, ?)",
+                (booktitle, event_by_admin, datetime.datetime.now()))
+    conn1.commit()
+    conn1.close()
 
     book_title_delete.delete(0, tk.END)
 
@@ -293,8 +366,27 @@ def delete_user():
 
     if cursor.rowcount > 0:
         messagebox.showinfo("Deleted", "User has been deleted.")
+        pass
     else:
         messagebox.showerror("Error", "User not found.")
+        return
+
+    current_username = getpass.getuser()
+    event_by_admin = current_username
+    conn1 = sqlite3.connect("event_logs.db")
+    cursor1 = conn1.cursor()
+    cursor1.execute("""CREATE TABLE IF NOT EXISTS deleted_registered_users (
+                    event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    username TEXT,
+                    event_by_admin TEXT,
+                    event_date TEXT
+                    )""")
+    conn1.commit()
+
+    cursor1.execute("INSERT INTO deleted_registered_users (username, event_by_admin, event_date) VALUES (?, ?, ?)",
+                (username, event_by_admin, datetime.datetime.now()))
+    conn1.commit()
+    conn1.close()
 
     user_name_delete.delete(0, tk.END)
 
@@ -302,6 +394,8 @@ def exit_the_program():
     answer = messagebox.askyesno("Quit Message", "Are you sure you're going to quit the registry administrator environment?")
     if answer:
         window.destroy()
+    else:
+        pass
 
 window = tk.Tk()
 window.title("Registry")
