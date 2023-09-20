@@ -27,6 +27,24 @@ cursor.execute("""CREATE TABLE IF NOT EXISTS books (
                 )""")
 conn.commit()
 
+current_username = getpass.getuser()
+event_by_admin = current_username
+
+conn1 = sqlite3.connect("event_logs.db")
+cursor1 = conn1.cursor()
+cursor1.execute("""CREATE TABLE IF NOT EXISTS admin_enter_exit_log (
+                event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                admin TEXT,
+                admin_enter_date TEXT,
+                admin_exit_date TEXT
+                )""")
+conn1.commit()
+
+cursor1.execute("INSERT INTO admin_enter_exit_log (admin, admin_enter_date) VALUES (?, ?)",
+            (event_by_admin, datetime.datetime.now()))
+conn1.commit()
+conn1.close()
+
 root = tk.Tk()
 root.title("Library Management System")
 root.resizable(False,False)
@@ -127,6 +145,16 @@ def add_book():
     instances_entry.delete(0, tk.END)
 
 def exit_the_program():
+
+    current_username = getpass.getuser()
+    event_by_admin = current_username
+    conn1 = sqlite3.connect("event_logs.db")
+    cursor1 = conn1.cursor()
+    cursor1.execute("INSERT INTO admin_enter_exit_log (admin, admin_exit_date) VALUES (?, ?)",
+                (event_by_admin, datetime.datetime.now()))
+    conn1.commit()
+    conn1.close()
+
     try:
         conn.close()
         access_manager.destroy()
