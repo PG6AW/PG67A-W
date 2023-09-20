@@ -38,3 +38,16 @@
     *** in the "Additional Complementary Tools" Directory and receive the specific book from them and manually check
     *** the date and time they had borrowed it by also using "Show.py" Tool in the "Show Database" directory under the 
     *** same parent directory "Additional Complementary Tools" and viewing the records using its full-fledged GUI.
+
++ Exit Button added
++ Exit Buttons have become more organized
++ Silenced some input errors
++ Implemented more data type sensitivity into Library
++ Subtly changed the way project looks
++ Center-aligned anything being typed into the entry fields
++ Runtime User-Guid pop-up mode added
++ Now the program is capable of generating event log specific to every admin identifying them with their username that helps managers track the ongoing activities.
++ To prevent abuse, i have implemented an algorithm to limit the number of books each user can borrow.
++ Handled some type errors that had occured during dev-tests.
++ Users can extend their return duration up to 40 days tops.
++ If a user borrows a book for a certain period of time and then decides to borrow another book immediately after, but for a shorter time, the duration for the second book is extended to include the remaining time from the previous book.
