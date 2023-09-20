@@ -5,6 +5,7 @@ from tkinter import messagebox
 import sqlite3
 import datetime
 from datetime import datetime
+import getpass
 
 
 def convert_to_days(date):
@@ -53,6 +54,23 @@ def update_database():
     conn.close()
 
     messagebox.showinfo("Success-Update Notice", "Database's timezone has been / had been(already) successfully updated to the current Time & Date of your system!")
+
+    current_username = getpass.getuser()
+    event_by_admin = current_username
+    conn1 = sqlite3.connect("event_logs.db")
+    cursor1 = conn1.cursor()
+    cursor1.execute("""CREATE TABLE IF NOT EXISTS time_zone_update (
+                    event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    button_fired TEXT,
+                    event_by_admin TEXT,
+                    event_date TEXT
+                    )""")
+    conn1.commit()
+
+    cursor1.execute("INSERT INTO time_zone_update (button_fired, event_by_admin, event_date) VALUES (?, ?, ?)",
+                ("CLICKED-FIRED by Admin", event_by_admin, datetime.now()))
+    conn1.commit()
+    conn1.close()
 
 def exit_the_program():
     window.destroy()
