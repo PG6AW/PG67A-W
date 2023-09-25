@@ -1,0 +1,4 @@
+    *** "Show.py" located in "Show database" directory :
+    *** It's now time to announce the last feature that makes it easier to navigate through records and details of the library
+    *** using a simple GUI that lists them all and extends your access with a scrollbar that navigates through the list.
+    *** It only fetches details from database and updates them using a button down there if deems it necessary and is made just for more comfortable access to the database making it easier to read records by administrators.

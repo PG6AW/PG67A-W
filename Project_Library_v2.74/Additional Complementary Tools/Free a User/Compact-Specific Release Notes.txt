@@ -1,0 +1,7 @@
+    *** Another outstanding feature is "Free.py" Tool located in "Free a User" directory :
+    *** This comes useful only if you need to manually free a user of charge so that they no longer owe a penny to the library.
+    *** To Achieve that, simply enter user's Username or ID hence helping them by redeeming them their freedom or removing their debt so they are fully forgiven of their penalty.
+    *** There are specific use cases one would refer to this tool. such as a situation in which for example a user had borrowed a book and cannot give it back because the system doesn't allow them to do this due to an interference caused by not letting them give back a book that is not officially signed by the library.
+
+
+    *** USE THIS FEATURE ONLY IF YOU KNOW WHAT YOU ARE REALLY DOING SINCE ITS RESPONSIBILITY IS SOLELY UP TO THE ONE IN CHARGE OF THE LIBRARY OR THE PERSON IN A POSITION THAT UNDERTAKES SUCH RESPONSITBIILTY SO EXERCISE CAUTION BEFORE MAKING YOUR DECISION FIRM TO MAINTAIN THE DATABASE UNHARMED ***
