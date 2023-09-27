@@ -1,0 +1,58 @@
+  *(+ P.S: FOR THE MAIN LIBRARY, FEATURES ARE INDICATED ONE BY ONE USING THEIR WIDGET-GROUP NUMBER ON LEFT AS PER THEIR EXPLANATION)*
+    *** The Very first step in which the database itself is created, is initiated in the MAINFILE__Book_Library.py
+    *** and that's where we create all the foundations and the infrastructure we need to build a true library
+    *** although it now exists in its pure simplistic form, we have established ideas that hence enabled us
+    *** to incorporate useful features into an all-in-one structure that works as intended as you immerse yourself
+    *** in it by just a hands-on experience with its GUI. We're proud of our first-ever work since it's easy for 
+    *** everyone to get the hang of with just giving the tools the first go.
+    *** But despite this all, please also note that when you're going to borrow a book, you need to have its
+    *** ID. and in order to do that, you need to retrieve it from the database that's also fulfilled with just
+    *** typing down the book's title in the appropriate field and a single left-click on the button to submit
+    *** your request and get the specific book ID.
+    *** One other notable thing to add, is that you can update the added books by just inputting their exact name
+    *** and update the rest of their details simply by entering new data in their appropriate fields.
+
+ 1  *** All in All, to put it short, the first 4 entries add a book to the database. one of which with the name
+ 1  *** "Number of Instances" implies to the number of copies of the same book currently available. and ID is also
+ 1  *** automatically generated for each book.
+ 2  *** Next part is to singup a User by their Username and Password. Books can be updated So do Users by a new
+ 2  *** password and the same Username.
+ 3  *** Next part is designed to retrieve IDs from each Username or Book if further needed.
+ 4  *** This part is used to remove or delete a book completely from the database. You can also go back to the 1st
+ 4  *** part and do this alternatively by setting Number of Instances of the specific book you wish to remove, a "0"
+ 4  *** value so that copies of it would no longer exist in the book repository.
+ 5  *** The 5th part that contains four entries is engineered in order to be clearly intended to borrow a specific
+ 5  *** book by their ID and they will be immediately assigned to a User profile once user is authenticated.
+ 6  *** The 6th widgets are just as clear as the 5th part. as they do useful tasks but adversely similar. which
+ 6  *** means they are designed to give a borrowed book back. Just like how the same book cannot be borrowed after
+ 6  *** it's borrowed twice by a User, nor can it be returned twice by the User. rest assured same applies to all
+ 6  *** users.
+    *** rest of it is all up to you to navigate through the GUI environment to further learn how to get the best
+    *** out of its functionalities.
+
+
+
+    *** And JUST IN CASE a book was completely purged from the database by "Delete a Book" feature, and a user had
+    *** previously borrowed it therefore owing it to the library and cannot give it back due to an issue that the
+    *** book no longer exists in database, manually refer to the "Free.py" Tool located in the "Free a user" Folder
+    *** in the "Additional Complementary Tools" Directory and receive the specific book from them and manually check
+    *** the date and time they had borrowed it by also using "Show.py" Tool in the "Show Database" directory under the 
+    *** same parent directory "Additional Complementary Tools" and viewing the records using its full-fledged GUI.
+
++ Exit Button added
++ Exit Buttons have become more organized
++ Silenced some input errors
++ Implemented more data type sensitivity into Library
++ Subtly changed the way project looks
++ Center-aligned anything being typed into the entry fields
++ Runtime User-Guid pop-up mode added
++ Now the program is capable of generating event logs specific to every admin identifying them with their username that helps managers track the ongoing activities.
++ To prevent abuse, i have implemented an algorithm to limit the number of books each user can borrow.
++ Handled some type errors that had occured during dev-tests.
++ Users can extend their return duration up to 15 days tops.
++ Users cannot borrow more than 2 books in a row.
++ Book Deletion can be locked by admin.
++ If Book Deletion of a specific book has been locked by an admin, it cannot be deleted and the number of available instances of the book will reach to zero.
++ If a user borrows a book for a certain period of time and then decides to borrow another book immediately after, but for a shorter time, the duration for the second book is extended to include the remaining time from the previous book.
++ Library admins cannot update books when the book is on "Reserved" mode.
++ If a book is returned while the 'Reserved' mode is activated, the user who borrowed it has fulfilled their obligation, but the book has not been added back to the library.

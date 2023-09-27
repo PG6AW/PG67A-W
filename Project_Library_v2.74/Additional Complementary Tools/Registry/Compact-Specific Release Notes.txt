@@ -1,0 +1,15 @@
+    *** "Registry.py" located in "Registry" directory :
+    *** This feature is used after a book has been added to the database or after a user has just signed up in the library.
+    *** Each book or User is better off getting registered after they are added to the library database.
+    *** This provides more precise info about books and users who are becoming a part of our library.
+    *** It's useful when tracking down specific books with for instance an ISBN or users that can be better profiled
+    *** based on their age or could be classifiled based on their geographical location and etc.
+    *** Its job is simple. the administrator should type down user's details after they have signed in.
+    *** Although it's not a necessity but can be highly useful.
+    *** The generated data is then stored in a form of records in "registry.db" database file.
+    *** In case of user-privacy-application, it's best to avoid using this tool and skip the procedure for users
+    *** to respect privacy-policy guidelines depending on the working ecosystem.
+
+	+ Add book Description
+	+ Add book Genre
+	+ Add book Category

@@ -1,0 +1,50 @@
+1. First run from Login.py (It's not used for the users of the Library, but indeed for the admins of the library!)
+
+2. Register if you haven't logged in
+
+3. Once registered, come back to the login window using the addressing buttons
+
+4. Submit your info. Once authenticated, you can use the library app which automatically opens the MAINFIE__Book_Library.py if you are authenticated and granted the permission.
+
+5. Moreover, You can modify & update your info or if you need to do that later, you can do so from update_login_info.py which is accessible from Login.py once you click the REGISTER button.
+
+6. There's also a spare part folder that comes as an additional bonus which is not in use by default but you can further replace it with both Login.py and Register.py files if you want to.
+
+7. Another window just opens alongside the Library itself which can navigate to other tools that are available in the Additional Complementary Tools folder per se.
+
+8. There are release notes named Compact-Specific which are used to explain all features of each Tool and Applet ensuring more convenience.
+
+9. USE THE SOFTWARE WITH ITS LICENSE INCLUDED IN EVERY SINGLE PORTION OF IT.
+
+10. GOOD LUCK AND DON'T FORGET TO SUPPORT US ON GITHUB!
+
+
+
+	"Hereby, Software Introduced by @PG6AW Github Team to its beloeved users and contributors"
+	"Project Library is our first-ever work, stay tuned for more!"
+	"All rights reserved"
+
+
+
+
+MIT License
+
+Copyright (c) 2023 Mohammad Dorri
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
