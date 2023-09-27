@@ -47,7 +47,7 @@ def change():
         usernames = str(usernames)
     else:
         usernames = list(usernames)
-    if tuple(username) in usernames:
+    if (f"('{username}',)") in str(usernames):
         pass
     else:
         messagebox.showerror("Invalid Username", "Usernames are UNIQUE values, meaning they cannot change.\nAnd the Username you have provided, doesn't exist in the local database!\n\nMake sure everything's alright before you confirm the submission!")
