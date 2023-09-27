@@ -52,7 +52,7 @@ def register():
         usernames = str(usernames)
     else:
         usernames = list(usernames)
-    if tuple(username) in usernames:
+    if (f"('{username}',)") in str(usernames):
         update = messagebox.askyesno("EXISTS!", "Usernames are unique & the provided username already exists in the local database!\n\nWant to update your details or even your password?")
         if update:
             subprocess.Popen(['python', 'update_login_info.py'])
