@@ -737,6 +737,35 @@ def urd():
     else:
         messagebox.showerror("Unavailable", "Book not Available!")
 
+def insert_to():
+    title = book_title_entry.get()
+    if title == "":
+        messagebox.showerror("Title Not Addressed", "To use this feature, you need to type at least a valid Book Title!\n\nHint: This feature allows you to modify Book details with more convenience and without requiring you to type every single entry again so this way you can simply read over the details and change only what has to be updated.\nAll in All, its function aims to ensure higher precision and an optimal time management!")
+        return
+    try:
+        if title:
+            query = "SELECT author, pages, instances FROM books WHERE title=?"
+            cursor.execute(query, (title,))
+            fetched = cursor.fetchall()
+            if fetched is None:
+                fetched = str(fetched)
+            else:
+                fetched = list(fetched)
+                for i in fetched:
+                    i = list(tuple(i))
+                author_entry.delete(0, tk.END)
+                author_entry.insert(tk.END, str(i[0]))
+                pages_entry.delete(0, tk.END)
+                pages_entry.insert(tk.END, str(i[1]))
+                instances_entry.delete(0, tk.END)
+                instances_entry.insert(tk.END, str(i[2]))
+        else:
+            messagebox.showerror("error", "Seems local database is raw and fresh. Therefore, no sorta books currently exists in it!")
+            return
+    except UnboundLocalError:
+        messagebox.showerror("error", "Invalid Book Title! There could be a reason that this book is yet not available in the local database!")
+        return
+
 custom_font = Font(family="Helvetica", size=24, weight="bold")
 label50 = tk.Label(root, text="$$$$$$$$ $$$$$$$$$$ $$$$$$$", font=custom_font, fg="#000000", bg="#000000")
 
@@ -818,8 +847,12 @@ instances_entry.configure(bg="peru", fg="darkblue", justify="center", font="aria
 instances_entry.grid(column=1, row=3)
 
 add_book_button = tk.Button(
-    frame1, background="green", text="Add Book", command=add_book, fg="white", relief="ridge")
+    frame1, background="green", text="Add/Update Book", command=add_book, fg="white", relief="ridge")
 add_book_button.grid(column=1, row=4)
+
+update_button = tk.Button(frame1, text="Modify/prep", command=insert_to)
+update_button.configure(font="arial 8 bold", pady=0, background="purple", relief="ridge", fg="yellow", width=10)
+update_button.place(relx=0.24, rely=0.79, anchor=tk.N)
 
 username_label = tk.Label(frame2, background="#7bdfe0",
                           text="Username:", width=16)
