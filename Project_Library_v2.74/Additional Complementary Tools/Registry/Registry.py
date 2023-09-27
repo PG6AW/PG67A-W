@@ -253,7 +253,6 @@ def show_registered_books():
     yscrollbar.config(command=text_widget.yview)
 
 def search_records():
-
     hint_message = messagebox.askyesno("Hint", "By typing data in one or multiple fields of either User registry column or Book registry column down below and then firing the 'Investigator' button, you can search for books and users.\n\nPlease note that this can also work as a combined-data search by inputting multiple fields. It'll pop a record for each set of matching criteria ONLY if they exist!\n\n-- CONTINUE? --")
     if hint_message:
         pass
@@ -305,7 +304,6 @@ def search_records():
             messagebox.showerror("Error", "No records to show!")
 
 def delete_book():
-
     booktitle = book_title_delete.get()
 
     if str(booktitle) == "":
@@ -393,9 +391,94 @@ def delete_user():
 def exit_the_program():
     answer = messagebox.askyesno("Quit Message", "Are you sure you're going to quit the registry administrator environment?")
     if answer:
+        conn.close()
         window.destroy()
     else:
         pass
+
+def insert_to_users():
+    conn = sqlite3.connect("registry.db")
+    cursor = conn.cursor()
+    username = username_entry.get()
+    if username == "":
+        messagebox.showerror("User Not Addressed", "To use this feature, you need to type at least a registered Username!\n\nHint: This feature allows you to modify User details with more convenience and without requiring you to type every single entry again so this way you can simply read over the details and change only what has to be updated.\nAll in All, its function aims to ensure higher precision and an optimal time management!")
+        return
+    try:
+        if username:
+            query = "SELECT name, middle_name_last_name, age, address, phone_number, national_id, email, postal_code FROM users WHERE username=?"
+            cursor.execute(query, (username,))
+            fetched = cursor.fetchall()
+            if fetched is None:
+                fetched = str(fetched)
+            else:
+                fetched = list(fetched)
+                for i in fetched:
+                    i = list(tuple(i))
+                name_entry.delete(0, tk.END)
+                name_entry.insert(tk.END, str(i[0]))
+                middle_name_last_name_entry.delete(0, tk.END)
+                middle_name_last_name_entry.insert(tk.END, str(i[1]))
+                age_entry.delete(0, tk.END)
+                age_entry.insert(tk.END, str(i[2]))
+                address_entry.delete(0, tk.END)
+                address_entry.insert(tk.END, str(i[3]))
+                phone_number_entry.delete(0, tk.END)
+                phone_number_entry.insert(tk.END, str(i[4]))
+                national_id_entry.delete(0, tk.END)
+                national_id_entry.insert(tk.END, str(i[5]))
+                email_entry.delete(0, tk.END)
+                email_entry.insert(tk.END, str(i[6]))
+                postal_code_entry.delete(0, tk.END)
+                postal_code_entry.insert(tk.END, str(i[7]))
+        else:
+            messagebox.showerror("error", "Seems local database is raw and fresh. Therefore, no sorta detail were currently returned!")
+            return
+    except UnboundLocalError:
+        messagebox.showerror("error", "Invalid Username! There could be a reason that this User is yet not available in the local database!")
+        return
+
+def insert_to_books():
+    conn = sqlite3.connect("registry.db")
+    cursor = conn.cursor()
+    Id = book_id_entry.get()
+    if Id == "":
+        messagebox.showerror("Book Not Addressed", "To use this feature, you need to type at least a registered Book ID!\n\nHint: This feature allows you to modify Book details with more convenience and without requiring you to type every single entry again so this way you can simply read over the details and change only what has to be updated.\nAll in All, its function aims to ensure higher precision and an optimal time management!")
+        return
+    try:
+        if Id:
+            query = "SELECT title, author, publisher, year_of_publish, isbn, pages, translated_by, book_genre, description FROM books WHERE book_id=?"
+            cursor.execute(query, (Id,))
+            fetched = cursor.fetchall()
+            if fetched is None:
+                fetched = str(fetched)
+            else:
+                fetched = list(fetched)
+                for i in fetched:
+                    i = list(tuple(i))
+                title_entry.delete(0, tk.END)
+                title_entry.insert(tk.END, str(i[0]))
+                author_entry.delete(0, tk.END)
+                author_entry.insert(tk.END, str(i[1]))
+                publisher_entry.delete(0, tk.END)
+                publisher_entry.insert(tk.END, str(i[2]))
+                year_of_publish_entry.delete(0, tk.END)
+                year_of_publish_entry.insert(tk.END, str(i[3]))
+                isbn_entry.delete(0, tk.END)
+                isbn_entry.insert(tk.END, str(i[4]))
+                pages_entry.delete(0, tk.END)
+                pages_entry.insert(tk.END, str(i[5]))
+                translated_by_entry.delete(0, tk.END)
+                translated_by_entry.insert(tk.END, str(i[6]))
+                book_genre_entry.delete(0, tk.END)
+                book_genre_entry.insert(tk.END, str(i[7]))
+                description_entry.delete(0, tk.END)
+                description_entry.insert(tk.END, str(i[8]))
+        else:
+            messagebox.showerror("error", "Seems local database is raw and fresh. Therefore, no sorta detail were currently returned!")
+            return
+    except UnboundLocalError:
+        messagebox.showerror("error", "Invalid Book ID! There could be a reason that this Book is yet not available in the local database!")
+        return
 
 window = tk.Tk()
 window.title("Registry")
@@ -511,9 +594,13 @@ space9 = tk.Label(left_pane, text="")
 space9.configure(bg="darkblue")
 space9.pack()
 
-register_user_button = tk.Button(left_pane, text="Register User", command=register_user)
+register_user_button = tk.Button(left_pane, text="Register/Update User", command=register_user)
 register_user_button.config(bg="#00ff00", height="2")
 register_user_button.pack(pady=10)
+
+user_insert_button = tk.Button(window, text="Modify", command=insert_to_users)
+user_insert_button.configure(font="arial 8 bold", pady=0, background="yellow", relief="ridge", fg="purple", width=10)
+user_insert_button.place(relx=0.11, rely=0.925, anchor=tk.N)
 
 middleframe1 = tk.Frame(window)
 middleframe1.config(bg="darkblue")
@@ -730,9 +817,13 @@ space20 = tk.Label(right_pane, text="")
 space20.configure(bg="darkblue")
 space20.pack()
 
-register_book_button = tk.Button(right_pane, text="Register Book", command=register_book)
+register_book_button = tk.Button(right_pane, text="Register/Update Book", command=register_book)
 register_book_button.config(bg="#00ff00", height="2")
 register_book_button.pack(pady=0)
+
+books_insert_button = tk.Button(window, text="Modify", command=insert_to_books)
+books_insert_button.configure(font="arial 8 bold", pady=0, background="yellow", relief="ridge", fg="purple", width=10)
+books_insert_button.place(relx=0.89, rely=0.97, anchor=tk.N)
 
 upper_frame = tk.Frame(window)
 upper_frame.config(bg="darkblue")
@@ -748,5 +839,4 @@ investigator_button = tk.Button(middleframe4, text="Investigator", bg="#00ff00",
 investigator_button.pack(side=tk.LEFT,padx=1)
 
 window.mainloop()
-
 conn.close()
