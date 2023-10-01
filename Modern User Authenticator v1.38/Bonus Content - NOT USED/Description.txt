@@ -1,0 +1,3 @@
+Just a ProtoTypical ArcheType, the initial concept of what's been created, and nothing more than the skeleton of the current "USER AUTHENTICATOR" Project we have developed by far!
+
+Don't forget to support us on github and tell us what could be added or made better!

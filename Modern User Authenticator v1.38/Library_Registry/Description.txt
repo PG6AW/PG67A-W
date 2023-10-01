@@ -1,0 +1,18 @@
+A TRUE LEGACY! NOTHING MORE I GOT TO ADD IN LENGTH OF WORDS AS WORDS PER SE CANNOT MAKE THE DESCRIPTION IT DEFIES BUT INDEED MAKING IT BEYOND EXPLANATION!
+ALL I CAN SAY IS THAT THE PROJECT MANAGEMENT LIBRARY WAS NOT JUST MY FIRST EVER PROJECT, BUT THE MOST MEMORABLE AND NOTALGIC ONE!
+
+*** Also note that you can replace this file with the task you'd like to perform but always address its location in the "login.py" file where there has been comments around the subprocess addressing portion of the code! ***
+
+
+
+
++ Also consider supporting "LIBRARY MANAGEMENT SYSTEM v2.74" project if you liked its remnant Legacy:
+
+	https://github.com/PG6AW/PG67A-W/releases
+
+	https://github.com/PG6AW/PG67A-W/issues/2
+
+	https://github.com/PG6AW/PG67AW/issues/4
+
+	https://github.com/PG6AW/PG67A-W/tree/main/Project_Library_v2.74
+

@@ -1,0 +1,45 @@
+	* THIS PYTHON APP IS INTENDED TO SERVE AS A MODERN USER AUTHENTICATOR FOR ANYONE WHO WISH TO USE IT! *
+
+1. "login.py":
+
+	The main file, the first file that must open and initiate the program is "login.py" !
+	As you try to login but you can't, it suggests that you need an account!
+	Try making one by using the "Register" button that leads right to the "register.py" file.
+
+	*** Also keep in mind that you can always change the commented code portion of the "login.py" in order to make it do another task tailored to your need other than just opening a library manager App which has been set as its last resort by default! ***
+	*** There has been just some empty comment tags around this portion that can be modified and it's only in the "login.py" file!
+
+2. "register.py":
+
+	As you open this window, you're going to register a new account for yourself based on the username you'd like to choose for yourself!
+	Don't forget that you need to pass some strict security tests first along with just going according to the visual instrcutions.
+	There are some automatic checks that appear under the window and keep in mind to track your keyboard state and your Caps Lock key status!
+	This thing ain't no joke! i'm serious man. It's a sophisticated, mondern user authenticator that i think only lacks in the area of captcha management that can be voluntarily added by further modifying the code which steps up security for use on enterprise-level websites which security must be a priority.
+	Once you've fulfilled your obligation and confirmed the registration process, only then you have indeed registered!
+
+3. "update_login_info.py":
+
+	If you need to update or change your registration info, including your password, then hands down as it's made possible for users to update their registration info.
+	For this purpose, you just need to remember your old passoword you had already set and without that, there's no alternative to recover your password or regain access to your account!
+	If you lost your passwords, reach out to Managers or Supervisors to simply have your password reset to "12345678".
+	Just don't forget to change your password to something strong as sequential numbers would serve no security for your account at all.
+
+4. "Pass_Reset.py" in "ONLY_MANAGERS_AND_SUPERVISORS__Password_Reset__ folder":
+
+	This part is only used by managers and supervisors as it resets your password to "12345678"!
+	If you lost your password by any means, gently ask system managers or supervisors to reset it for you so that this way they'll be able to help you regain access to your account.
+	DON'T FORGET TO LATER CHANGE YOUR PASSWORD YOURSELF!
+
+5. "Registry.py" in "Library_Registry" folder:
+
+	This portion is a Legacy from our "LIBRARY MANAGEMENT SYSTEM" project! A project that possibly once made your day and is never gonna get old! (Good Old Days LOL at least for me i'd say ...)
+	But please note that you can replace it with anything that meets your requirements and this one little thing is just a sample and nothing more!
+
+6. "login_window_basic_comprehensive_structure.py" which is located in the "Bonus Content - NOT USED" directory:
+
+	This part was almost used in the latest LIBRARY MANAGEMENT SYSTEM project update (Version 2.74)
+	You may want to consider this one too as a Legacy but seriously you can do so as you wish LOL!
+	But hell no!
+	This one was just a prototypical form of the current project. The very first initiative phase where ideas sparkled one by one and everything started!
+	The reason i decided to include it in the project was because i wanted to indicate the project's transitioning breakpoints and somehow illustrate its growing timeline in a visual format and not just by using boring words. (Short and Concise is 99% of times superior, not?)
+	

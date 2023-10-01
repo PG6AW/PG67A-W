@@ -1,0 +1,3 @@
+This part is only used by managers and supervisors.
+It's sole purpose is to reset a user's password whose forgot theirs and have reached out to managers to regain access to thir account.
+Username is the only requirement for this task to perform accordingly and as intended!

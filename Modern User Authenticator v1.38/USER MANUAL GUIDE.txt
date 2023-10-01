@@ -1,0 +1,28 @@
+- MAIN FILE IS ALWAYS "login.py"
+
+- ALWAYS RUN FROM "login.py"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+P.S: "And btw, i know the difference between a password and a passphrase tbh LMAO" DON'T GET ME WRONG! & i'm sorry for confusing you all for a moment LOL
