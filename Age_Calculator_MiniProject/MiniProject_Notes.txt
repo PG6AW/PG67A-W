@@ -1,0 +1,15 @@
+This simple age calculator that comes in two versions of CLI AND GUI , might be a useful tool during the mad dash of a transfer in hospitals.
+It just calculates patient's age by getting its solar or gregorian birth year while in haste!	That's it!
+
+	If there's no time or one is distressed enough to think which year it currently is and then calculate someone's age manually or by using a calculator, this can be a helpful tool for
+	both people who are using gregorian or the solar datetime! GOOD LUCK!
+
+
+
+	* MADE WITH LOVE FOR ANYONE WHO SPEAKS PERSIAN AND USES SOLAR DATETIME SYSTEM, AND THE REST OF THE WORLD THAT USE GREGORIAN DATE! *
+
+
+
+*** ALSO CONSIDER CHECKING OTHER AMAZING MINI-PROJECTS OF MINE THROUGH THE LINK BELOW AND DON'T FORGET TO SUPPORT US ON GITHUB: ***
+
+					https://github.com/PG6AW/PG67A-W/tree/master
